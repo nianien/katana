@@ -16,7 +16,7 @@ import com.katana.demo.entity.uc.tables.UserTag;
 public class Tables {
 
     /**
-     * The table <code>uc.User</code>.
+     * The table <code>uc.user</code>.
      */
     public static final User USER = User.USER;
 

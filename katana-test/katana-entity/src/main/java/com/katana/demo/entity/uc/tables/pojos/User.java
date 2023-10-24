@@ -59,112 +59,112 @@ public class User implements Serializable {
     }
 
     /**
-     * Getter for <code>uc.User.id</code>.
+     * Getter for <code>uc.user.id</code>.
      */
     public Long getId() {
         return this.id;
     }
 
     /**
-     * Setter for <code>uc.User.id</code>.
+     * Setter for <code>uc.user.id</code>.
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * Getter for <code>uc.User.name</code>.
+     * Getter for <code>uc.user.name</code>.
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Setter for <code>uc.User.name</code>.
+     * Setter for <code>uc.user.name</code>.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Getter for <code>uc.User.phone</code>.
+     * Getter for <code>uc.user.phone</code>.
      */
     public String getPhone() {
         return this.phone;
     }
 
     /**
-     * Setter for <code>uc.User.phone</code>.
+     * Setter for <code>uc.user.phone</code>.
      */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
     /**
-     * Getter for <code>uc.User.email</code>.
+     * Getter for <code>uc.user.email</code>.
      */
     public String getEmail() {
         return this.email;
     }
 
     /**
-     * Setter for <code>uc.User.email</code>.
+     * Setter for <code>uc.user.email</code>.
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * Getter for <code>uc.User.create_time</code>.
+     * Getter for <code>uc.user.create_time</code>.
      */
     public Date getCreateTime() {
         return this.createTime;
     }
 
     /**
-     * Setter for <code>uc.User.create_time</code>.
+     * Setter for <code>uc.user.create_time</code>.
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     /**
-     * Getter for <code>uc.User.update_time</code>.
+     * Getter for <code>uc.user.update_time</code>.
      */
     public Date getUpdateTime() {
         return this.updateTime;
     }
 
     /**
-     * Setter for <code>uc.User.update_time</code>.
+     * Setter for <code>uc.user.update_time</code>.
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
     /**
-     * Getter for <code>uc.User.tenant_code</code>.
+     * Getter for <code>uc.user.tenant_code</code>.
      */
     public String getTenantCode() {
         return this.tenantCode;
     }
 
     /**
-     * Setter for <code>uc.User.tenant_code</code>.
+     * Setter for <code>uc.user.tenant_code</code>.
      */
     public void setTenantCode(String tenantCode) {
         this.tenantCode = tenantCode;
     }
 
     /**
-     * Getter for <code>uc.User.env</code>.
+     * Getter for <code>uc.user.env</code>.
      */
     public String getEnv() {
         return this.env;
     }
 
     /**
-     * Setter for <code>uc.User.env</code>.
+     * Setter for <code>uc.user.env</code>.
      */
     public void setEnv(String env) {
         this.env = env;

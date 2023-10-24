@@ -39,7 +39,7 @@ public class User extends TableImpl<UserRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * The reference instance of <code>uc.User</code>
+     * The reference instance of <code>uc.user</code>
      */
     public static final User USER = new User();
 
@@ -52,42 +52,42 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * The column <code>uc.User.id</code>.
+     * The column <code>uc.user.id</code>.
      */
     public final TableField<UserRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>uc.User.name</code>.
+     * The column <code>uc.user.name</code>.
      */
     public final TableField<UserRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>uc.User.phone</code>.
+     * The column <code>uc.user.phone</code>.
      */
     public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(13).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
 
     /**
-     * The column <code>uc.User.email</code>.
+     * The column <code>uc.user.email</code>.
      */
     public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
 
     /**
-     * The column <code>uc.User.create_time</code>.
+     * The column <code>uc.user.create_time</code>.
      */
     public final TableField<UserRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "", new LocalDateTimeConverter());
 
     /**
-     * The column <code>uc.User.update_time</code>.
+     * The column <code>uc.user.update_time</code>.
      */
     public final TableField<UserRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "", new LocalDateTimeConverter());
 
     /**
-     * The column <code>uc.User.tenant_code</code>.
+     * The column <code>uc.user.tenant_code</code>.
      */
     public final TableField<UserRecord, String> TENANT_CODE = createField(DSL.name("tenant_code"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>uc.User.env</code>.
+     * The column <code>uc.user.env</code>.
      */
     public final TableField<UserRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
 
@@ -100,24 +100,24 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * Create an aliased <code>uc.User</code> table reference
+     * Create an aliased <code>uc.user</code> table reference
      */
     public User(String alias) {
         this(DSL.name(alias), USER);
     }
 
     /**
-     * Create an aliased <code>uc.User</code> table reference
+     * Create an aliased <code>uc.user</code> table reference
      */
     public User(Name alias) {
         this(alias, USER);
     }
 
     /**
-     * Create a <code>uc.User</code> table reference
+     * Create a <code>uc.user</code> table reference
      */
     public User() {
-        this(DSL.name("User"), null);
+        this(DSL.name("user"), null);
     }
 
     public <O extends Record> User(Table<O> child, ForeignKey<O, UserRecord> key) {
@@ -136,12 +136,12 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public UniqueKey<UserRecord> getPrimaryKey() {
-        return Keys.CONSTRAINT_2;
+        return Keys.CONSTRAINT_3;
     }
 
     @Override
     public List<UniqueKey<UserRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserRecord>>asList(Keys.CONSTRAINT_2);
+        return Arrays.<UniqueKey<UserRecord>>asList(Keys.CONSTRAINT_3);
     }
 
     @Override

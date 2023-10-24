@@ -31,7 +31,7 @@ public class Uc extends SchemaImpl {
     public static final Uc UC = new Uc();
 
     /**
-     * The table <code>uc.User</code>.
+     * The table <code>uc.user</code>.
      */
     public final User USER = User.USER;
 

@@ -28,7 +28,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UserRecord> CONSTRAINT_2 = Internal.createUniqueKey(User.USER, DSL.name("CONSTRAINT_2"), new TableField[] { User.USER.ID }, true);
+    public static final UniqueKey<UserRecord> CONSTRAINT_3 = Internal.createUniqueKey(User.USER, DSL.name("CONSTRAINT_3"), new TableField[] { User.USER.ID }, true);
     public static final UniqueKey<UserAuditRecord> CONSTRAINT_7 = Internal.createUniqueKey(UserAudit.USER_AUDIT, DSL.name("CONSTRAINT_7"), new TableField[] { UserAudit.USER_AUDIT.USERID }, true);
     public static final UniqueKey<UserTagRecord> CONSTRAINT_F = Internal.createUniqueKey(UserTag.USER_TAG, DSL.name("CONSTRAINT_F"), new TableField[] { UserTag.USER_TAG.ID }, true);
 }

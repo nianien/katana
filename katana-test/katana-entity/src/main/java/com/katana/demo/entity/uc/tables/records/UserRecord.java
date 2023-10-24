@@ -24,112 +24,112 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>uc.User.id</code>.
+     * Setter for <code>uc.user.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>uc.User.id</code>.
+     * Getter for <code>uc.user.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>uc.User.name</code>.
+     * Setter for <code>uc.user.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>uc.User.name</code>.
+     * Getter for <code>uc.user.name</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>uc.User.phone</code>.
+     * Setter for <code>uc.user.phone</code>.
      */
     public void setPhone(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>uc.User.phone</code>.
+     * Getter for <code>uc.user.phone</code>.
      */
     public String getPhone() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>uc.User.email</code>.
+     * Setter for <code>uc.user.email</code>.
      */
     public void setEmail(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>uc.User.email</code>.
+     * Getter for <code>uc.user.email</code>.
      */
     public String getEmail() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>uc.User.create_time</code>.
+     * Setter for <code>uc.user.create_time</code>.
      */
     public void setCreateTime(Date value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>uc.User.create_time</code>.
+     * Getter for <code>uc.user.create_time</code>.
      */
     public Date getCreateTime() {
         return (Date) get(4);
     }
 
     /**
-     * Setter for <code>uc.User.update_time</code>.
+     * Setter for <code>uc.user.update_time</code>.
      */
     public void setUpdateTime(Date value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>uc.User.update_time</code>.
+     * Getter for <code>uc.user.update_time</code>.
      */
     public Date getUpdateTime() {
         return (Date) get(5);
     }
 
     /**
-     * Setter for <code>uc.User.tenant_code</code>.
+     * Setter for <code>uc.user.tenant_code</code>.
      */
     public void setTenantCode(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>uc.User.tenant_code</code>.
+     * Getter for <code>uc.user.tenant_code</code>.
      */
     public String getTenantCode() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>uc.User.env</code>.
+     * Setter for <code>uc.user.env</code>.
      */
     public void setEnv(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>uc.User.env</code>.
+     * Getter for <code>uc.user.env</code>.
      */
     public String getEnv() {
         return (String) get(7);

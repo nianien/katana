@@ -2,7 +2,7 @@
 -- (.*)(<.*>)(.*),  ==> $1$3 COMMENT'$2',
 CREATE SCHEMA `uc`;
 SET SCHEMA `uc`;
-CREATE TABLE `User`
+CREATE TABLE `user`
 (
     `id`          bigint(20)  NOT NULL AUTO_INCREMENT COMMENT '账户ID',
     `name`        varchar(16) NOT NULL DEFAULT '' COMMENT '账户名称',
