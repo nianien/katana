@@ -92,7 +92,7 @@ public class PerformanceListener implements DefaultListener {
             String format = StopWatch.format(sw.split());
             //enable show-sql or exists slow-query
             if (SHOW_SQL || sw.split() > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME)) {
-                log.info("sql query by jooq cost {}:\nsucceed:{}\nfailed:{}", format, sqlList, failedList);
+                log.info("sql query by jooq cost {}:\nsucceed:{}\nfail:{}", format, sqlList, failedList);
             }
             SQL_QUERIES.remove();
             STOP_WATCH.remove();

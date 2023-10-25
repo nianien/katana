@@ -70,14 +70,13 @@
             </plugin>
         </plugins>
         <pluginManagement>
-
             <plugins>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
                     <version>1.5.0</version>
                     <configuration>
-                        <!--                        <updatePomFile>true</updatePomFile>-->
+                        <!-- <updatePomFile>true</updatePomFile>-->
                         <flattenMode>resolveCiFriendliesOnly</flattenMode>
                     </configuration>
                     <executions>

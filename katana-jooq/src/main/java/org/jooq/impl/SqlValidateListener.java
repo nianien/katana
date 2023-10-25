@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 针对SQL写入字段进行校验，避免DB服务端异常
+ * 针对SQL语句进行校验，如字段长度\不包含where的insert/delete操作等,避免DB服务端异常
  *
  * @author liyifei
  */
 @Slf4j
-public class FieldValidateListener implements DefaultListener {
+public class SqlValidateListener implements DefaultListener {
 
 
     @Override

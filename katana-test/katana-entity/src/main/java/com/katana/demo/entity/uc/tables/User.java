@@ -64,12 +64,12 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>uc.user.phone</code>.
      */
-    public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(13).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
+    public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
 
     /**
      * The column <code>uc.user.email</code>.
      */
-    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
+    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
 
     /**
      * The column <code>uc.user.create_time</code>.

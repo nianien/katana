@@ -54,12 +54,13 @@ public class UserDao {
         for (int i = 0; i < count; i++) {
             UserRecord record = new UserRecord();
             record.setName(name);
-            if (i > 0) {
-                record.setPhone(phone);
+            record.setPhone(phone);
+            if (i % 2 == 0) {
+                record.setEmail(email);
             } else {
-                record.setPhone(phone);
+                record.setPhone(email);
             }
-            record.setEmail(email);
+
             records[i] = record;
         }
         dslContext.batchInsert(records).execute();
@@ -68,19 +69,25 @@ public class UserDao {
         record.setName(name);
         record.setPhone(phone);
         record.setEmail(email);
-        dslContext.insertInto(USER).set(record).newRecord().set(record).execute();
+        record.setTenantCode("test");
+        UserRecord record2 = new UserRecord();
+        record2.setName(name);
+        record2.setPhone(phone);
+        record2.setEmail(email);
+        record2.setTenantCode("test2");
+        dslContext.insertInto(USER).set(record).newRecord().set(record2).execute();
         //id, name, phone, email, create_time, update_time, tenant_code, env
         Field[] fields = new Field[]{USER.NAME, USER.PHONE, USER.EMAIL, USER.CREATE_TIME, USER.UPDATE_TIME, USER.TENANT_CODE, USER.ENV};
         return dslContext.insertInto(USER, fields).select(
                 dslContext.select(fields)
-                        .from(USER).limit(1)).execute();
+                        .from(USER).where(USER.TENANT_CODE.eq("test")).limit(1)).execute();
     }
 
     public int update(String name, String phone, String email) {
         return dslContext.update(USER)
                 .set(USER.EMAIL, email)
                 .set(USER.PHONE, phone)
-                .set(USER.TENANT_CODE, "bad_tenant")
+                .set(USER.TENANT_CODE, "tenant")
                 .where(USER.NAME.eq(name))
                 .and(USER.ID.in(dslContext.select(USER.ID).from(USER).where(USER.ID.ge(0L))))
                 .execute();
