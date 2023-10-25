@@ -22,28 +22,28 @@ public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implem
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>uc.user_audit.userid</code>.
+     * Setter for <code>uc.user_audit.userid</code>. 用户ID
      */
     public void setUserid(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>uc.user_audit.userid</code>.
+     * Getter for <code>uc.user_audit.userid</code>. 用户ID
      */
     public Long getUserid() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>uc.user_audit.name</code>.
+     * Setter for <code>uc.user_audit.name</code>. 用户名
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>uc.user_audit.name</code>.
+     * Getter for <code>uc.user_audit.name</code>. 用户名
      */
     public String getName() {
         return (String) get(1);
@@ -51,6 +51,7 @@ public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implem
 
     /**
      * Setter for <code>uc.user_audit.audit_state</code>.
+     * 审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)
      */
     public void setAuditState(Integer value) {
         set(2, value);
@@ -58,62 +59,63 @@ public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implem
 
     /**
      * Getter for <code>uc.user_audit.audit_state</code>.
+     * 审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)
      */
     public Integer getAuditState() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>uc.user_audit.auditor_id</code>.
+     * Setter for <code>uc.user_audit.auditor_id</code>. 审核员id
      */
     public void setAuditorId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>uc.user_audit.auditor_id</code>.
+     * Getter for <code>uc.user_audit.auditor_id</code>. 审核员id
      */
     public Long getAuditorId() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for <code>uc.user_audit.reason_code</code>.
+     * Setter for <code>uc.user_audit.reason_code</code>. 拒绝理由
      */
     public void setReasonCode(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>uc.user_audit.reason_code</code>.
+     * Getter for <code>uc.user_audit.reason_code</code>. 拒绝理由
      */
     public String getReasonCode() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>uc.user_audit.refuse_reason</code>.
+     * Setter for <code>uc.user_audit.refuse_reason</code>. 拒绝原因
      */
     public void setRefuseReason(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>uc.user_audit.refuse_reason</code>.
+     * Getter for <code>uc.user_audit.refuse_reason</code>. 拒绝原因
      */
     public String getRefuseReason() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>uc.user_audit.env</code>.
+     * Setter for <code>uc.user_audit.env</code>. 环境标
      */
     public void setEnv(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>uc.user_audit.env</code>.
+     * Getter for <code>uc.user_audit.env</code>. 环境标
      */
     public String getEnv() {
         return (String) get(6);
@@ -325,5 +327,22 @@ public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implem
         setReasonCode(reasonCode);
         setRefuseReason(refuseReason);
         setEnv(env);
+    }
+
+    /**
+     * Create a detached, initialised UserAuditRecord
+     */
+    public UserAuditRecord(com.katana.demo.entity.uc.tables.pojos.UserAudit value) {
+        super(UserAudit.USER_AUDIT);
+
+        if (value != null) {
+            setUserid(value.getUserid());
+            setName(value.getName());
+            setAuditState(value.getAuditState());
+            setAuditorId(value.getAuditorId());
+            setReasonCode(value.getReasonCode());
+            setRefuseReason(value.getRefuseReason());
+            setEnv(value.getEnv());
+        }
     }
 }

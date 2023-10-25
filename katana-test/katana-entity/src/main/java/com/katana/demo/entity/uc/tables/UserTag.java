@@ -9,17 +9,19 @@ import com.katana.demo.entity.uc.Uc;
 import com.katana.demo.entity.uc.tables.records.UserTagRecord;
 import com.katana.jooq.converter.LocalDateTimeConverter;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function6;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row6;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -51,34 +53,34 @@ public class UserTag extends TableImpl<UserTagRecord> {
     }
 
     /**
-     * The column <code>uc.user_tag.id</code>.
+     * The column <code>uc.user_tag.id</code>. 主键
      */
-    public final TableField<UserTagRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserTagRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "主键");
 
     /**
-     * The column <code>uc.user_tag.userid</code>.
+     * The column <code>uc.user_tag.userid</code>. 用户id
      */
-    public final TableField<UserTagRecord, Long> USERID = createField(DSL.name("userid"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UserTagRecord, Long> USERID = createField(DSL.name("userid"), SQLDataType.BIGINT.nullable(false), this, "用户id");
 
     /**
-     * The column <code>uc.user_tag.tag</code>.
+     * The column <code>uc.user_tag.tag</code>. 账户标签
      */
-    public final TableField<UserTagRecord, String> TAG = createField(DSL.name("tag"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field("'0'", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserTagRecord, String> TAG = createField(DSL.name("tag"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'0'"), SQLDataType.VARCHAR)), this, "账户标签");
 
     /**
-     * The column <code>uc.user_tag.create_time</code>.
+     * The column <code>uc.user_tag.create_time</code>. 创建时间
      */
-    public final TableField<UserTagRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("'2010-01-01 00:00:00'", SQLDataType.LOCALDATETIME)), this, "", new LocalDateTimeConverter());
+    public final TableField<UserTagRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("'2010-01-01 00:00:00'"), SQLDataType.LOCALDATETIME)), this, "创建时间", new LocalDateTimeConverter());
 
     /**
-     * The column <code>uc.user_tag.modify_time</code>.
+     * The column <code>uc.user_tag.modify_time</code>. 修改时间
      */
-    public final TableField<UserTagRecord, Date> MODIFY_TIME = createField(DSL.name("modify_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "", new LocalDateTimeConverter());
+    public final TableField<UserTagRecord, Date> MODIFY_TIME = createField(DSL.name("modify_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "修改时间", new LocalDateTimeConverter());
 
     /**
-     * The column <code>uc.user_tag.env</code>.
+     * The column <code>uc.user_tag.env</code>. 环境标
      */
-    public final TableField<UserTagRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserTagRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "环境标");
 
     private UserTag(Name alias, Table<UserTagRecord> aliased) {
         this(alias, aliased, null);
@@ -115,7 +117,7 @@ public class UserTag extends TableImpl<UserTagRecord> {
 
     @Override
     public Schema getSchema() {
-        return Uc.UC;
+        return aliased() ? null : Uc.UC;
     }
 
     @Override
@@ -129,11 +131,6 @@ public class UserTag extends TableImpl<UserTagRecord> {
     }
 
     @Override
-    public List<UniqueKey<UserTagRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserTagRecord>>asList(Keys.CONSTRAINT_F);
-    }
-
-    @Override
     public UserTag as(String alias) {
         return new UserTag(DSL.name(alias), this);
     }
@@ -141,6 +138,11 @@ public class UserTag extends TableImpl<UserTagRecord> {
     @Override
     public UserTag as(Name alias) {
         return new UserTag(alias, this);
+    }
+
+    @Override
+    public UserTag as(Table<?> alias) {
+        return new UserTag(alias.getQualifiedName(), this);
     }
 
     /**
@@ -159,6 +161,14 @@ public class UserTag extends TableImpl<UserTagRecord> {
         return new UserTag(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public UserTag rename(Table<?> name) {
+        return new UserTag(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row6 type methods
     // -------------------------------------------------------------------------
@@ -166,5 +176,20 @@ public class UserTag extends TableImpl<UserTagRecord> {
     @Override
     public Row6<Long, Long, String, Date, Date, String> fieldsRow() {
         return (Row6) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function6<? super Long, ? super Long, ? super String, ? super Date, ? super Date, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function6<? super Long, ? super Long, ? super String, ? super Date, ? super Date, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

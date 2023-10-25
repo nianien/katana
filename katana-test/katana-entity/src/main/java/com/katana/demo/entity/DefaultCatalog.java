@@ -4,6 +4,7 @@
 package com.katana.demo.entity;
 
 
+import org.jooq.Constants;
 import org.jooq.impl.CatalogImpl;
 
 
@@ -26,4 +27,12 @@ public class DefaultCatalog extends CatalogImpl {
     private DefaultCatalog() {
         super("");
     }
+
+    /**
+     * A reference to the 3.18 minor release of the code generator. If this
+     * doesn't compile, it's because the runtime library uses an older minor
+     * release, namely: 3.18. You can turn off the generation of this reference
+     * by specifying /configuration/generator/generate/jooqVersionReference
+     */
+    private static final String REQUIRE_RUNTIME_JOOQ_VERSION = Constants.VERSION_3_18;
 }

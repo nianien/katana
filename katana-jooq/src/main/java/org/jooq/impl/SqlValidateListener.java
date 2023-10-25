@@ -1,10 +1,7 @@
 package org.jooq.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.jooq.DataType;
-import org.jooq.ExecuteContext;
-import org.jooq.Field;
-import org.jooq.Query;
+import org.jooq.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,14 +29,13 @@ public class SqlValidateListener implements DefaultListener {
                 validate(f, entry.getValue());
             }
         }
-        //更新时, 禁止tenant_code更新,增加tenant_code匹配
         if (query instanceof UpdateQueryImpl) {
             UpdateQueryImpl updateQuery = (UpdateQueryImpl) query;
             FieldMapForUpdate values = updateQuery.getValues();
-            Set<Map.Entry<Field<?>, Field<?>>> entries = values.entrySet();
-            for (Map.Entry<Field<?>, Field<?>> entry : entries) {
-                Field field = entry.getKey();
-                Field<?> value = entry.getValue();
+            Set<Map.Entry<FieldOrRow, FieldOrRowOrSelect>> entries = values.entrySet();
+            for (Map.Entry<FieldOrRow, FieldOrRowOrSelect> entry : entries) {
+                Field field = (Field) entry.getKey();
+                Field value = ((Field) entry.getValue());
                 validate(field, Arrays.asList(value));
             }
         }
@@ -57,6 +53,12 @@ public class SqlValidateListener implements DefaultListener {
         }
     }
 
+    /**
+     * 校验字段
+     *
+     * @param field
+     * @param values
+     */
     private void validate(Field<?> field, List<Field<?>> values) {
         DataType<?> dataType = field.getDataType();
         if (dataType.hasLength()) {
@@ -74,6 +76,5 @@ public class SqlValidateListener implements DefaultListener {
             }
         }
     }
-
 
 }

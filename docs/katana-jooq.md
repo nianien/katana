@@ -11,7 +11,7 @@ Katana-JOOQ是在JOOQ框架基础之上进行封装，为应用层提供一些�
 
 ## Quick start
 
-#### Maven
+### Maven依赖
 
 ```xml
 
@@ -22,9 +22,9 @@ Katana-JOOQ是在JOOQ框架基础之上进行封装，为应用层提供一些�
 </dependency>  
 ```
 
-#### Java
+### Java用例
 
-##### 1. 耗时监控
+#### 1. 耗时监控
 
 **配置监听器**
 
@@ -100,7 +100,7 @@ UserRecord[]records=new UserRecord[count];
 
 ![SQL批量执行耗时](./images/sql-cost2.png)
 
-##### 2. SQL校验
+#### 2. SQL校验
 
 **添加监听器**
 
@@ -142,14 +142,14 @@ dslContext.update(USER)
         .set(USER.EMAIL,email)
         .set(USER.PHONE,phone)
 //delete without condition
-dslContext.delete(USER)
+        dslContext.delete(USER)
 ```
 
 **执行结果**
 
 ![where条件校验](./images/sql-validate2.png)
 
-##### 3.字段隔离
+#### 3.动态SQL
 
 **添加监听器**
 
@@ -219,24 +219,24 @@ dslContext.update(USER)
 
 ```Java
 //try insert tenatcode "test"
-UserRecord record = new UserRecord();
-record.setName(name);
-record.setPhone(phone);
-record.setEmail(email);
-record.setTenantCode("test");
+UserRecord record=new UserRecord();
+        record.setName(name);
+        record.setPhone(phone);
+        record.setEmail(email);
+        record.setTenantCode("test");
 //try insert tenatcode "test2"
-UserRecord record2 = new UserRecord();
-record2.setName(name);
-record2.setPhone(phone);
-record2.setEmail(email);
-record2.setTenantCode("test2");
+        UserRecord record2=new UserRecord();
+        record2.setName(name);
+        record2.setPhone(phone);
+        record2.setEmail(email);
+        record2.setTenantCode("test2");
 
 //try copy from other tenants
-dslContext.insertInto(USER).set(record).newRecord().set(record2).execute();
-Field[] fields = new Field[]{USER.NAME, USER.PHONE, USER.EMAIL, USER.CREATE_TIME, USER.UPDATE_TIME, USER.TENANT_CODE, USER.ENV};
-dslContext.insertInto(USER, fields).select(
-dslContext.select(fields)
-.from(USER).limit(1)).execute()
+        dslContext.insertInto(USER).set(record).newRecord().set(record2).execute();
+        Field[]fields=new Field[]{USER.NAME,USER.PHONE,USER.EMAIL,USER.CREATE_TIME,USER.UPDATE_TIME,USER.TENANT_CODE,USER.ENV};
+        dslContext.insertInto(USER,fields).select(
+        dslContext.select(fields)
+        .from(USER).limit(1)).execute()
 ```
 
 **执行结果**
@@ -244,3 +244,126 @@ dslContext.select(fields)
 ![SQL动态修改](./images/sql_complete3.png)
 
 由打印日志可以看出，在执行插入的时候，对于tenant_code字段，系统会将手动设置值替换为上下文中获取的字段值。另外在通过insert...select进行复制数据的时，也会对子查询增加过滤条件，保证只能复制当前租户的数据。
+
+#### 5. SQL条件生成
+```java
+@Data
+public class GoodsQuery {
+
+    /**
+     * 数据id
+     */
+    private Long id;
+    /**
+     * 业务标识
+     */
+    private Integer bizType;
+    /**
+     * 操作人
+     */
+    private String modifier;
+    /**
+     * 环境标识
+     */
+    @Match(Operator.NONE)
+    private String env;
+    /**
+     * 任务单号
+     */
+    private String orderCode;
+    /**
+     * 运单号
+     */
+    private String mailNo;
+    /**
+     * 订单号
+     */
+    private String orderId;
+    /**
+     * 提报时间开始
+     */
+    @Match(name = "out_submit_time", value = Operator.GE)
+    private Date submitTimeBegin;
+    /**
+     * 提报时间结束
+     */
+    @Match(name = "out_submit_time", value = Operator.LE)
+    private Date submitTimeEnd;
+    /**
+     * 行业id
+     */
+    private Long industryId;
+    /**
+     * 行业名称
+     */
+    private String industryName;
+
+    /**
+     * 发货仓code
+     */
+    private String srcStoreCode;
+    /**
+     * 发货仓name
+     */
+    private String srcStoreName;
+    /**
+     * 价格
+     */
+    private BigDecimal price;
+    /**
+     * 过期时间
+     */
+    @Match(Operator.BETWEEN)
+    private Date[] expireDate;
+    /**
+     * 创建时间
+     */
+    @Match(Operator.BETWEEN)
+    private Date createDate;
+
+}
+
+GoodsQuery query = new GoodsQuery();
+query.setSubmitTimeBegin(new Date());
+query.setSubmitTimeEnd(new Date());
+query.setSrcStoreName("abc");
+query.setIndustryName("ddd");
+query.setIndustryId(-100L);
+query.setId(100L);
+query.setPrice(new BigDecimal(1111));
+//默认Equals
+Condition condition = ConditionBuilder.byName()
+        //价格匹配
+        .match(GoodsQuery::getPrice, Operator.LT)
+        //名称匹配
+        .match("(?i).*name.*", Operator.LIKE)
+        .build(query);
+System.out.println(dslContext.renderInlined(condition));
+```
+**执行结果**
+```text
+(industry_name like concat('%', replace(replace(replace('ddd', '!', '!!'), '%', '!%'), '_', '!_'), '%') escape '!' and out_submit_time <= {ts '2023-10-25 22:12:46.338'} and industry_id = -100 and out_submit_time >= {ts '2023-10-25 22:12:46.338'} and price < 1111 and id = 100 and src_store_name like concat('%', replace(replace(replace('abc', '!', '!!'), '%', '!%'), '_', '!_'), '%') escape '!')
+
+```
+
+#### 4. SQL条件链式校验
+
+```java
+//long type = 100;
+//String name = "jack";
+//List<Integer> types = Arrays.asList(1001, 1002, 1003, 1004, 0, -1); 
+Condition condition=FluentCondition.and()
+        .when(gt0(type),UserTable.Type)
+        .when(notEmpty(name),UserTable.NAME::ne)
+        .when(notEmpty(types)
+            .then(e->e.stream()
+            .filter(i->i>0).toList())
+            .when(List::isEmpty)
+            .negate(),UserTable.TYPE::notIn)
+        .get();
+System.out.println(dslContext.renderInlined(condition));
+```
+**执行结果**
+```text
+(id = 100 and name <> 'jack' and type not in (1001, 1002, 1003, 1004))
+```

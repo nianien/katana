@@ -15,13 +15,13 @@ public class UserAudit implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long    userid;
-    private String  name;
+    private Long userid;
+    private String name;
     private Integer auditState;
-    private Long    auditorId;
-    private String  reasonCode;
-    private String  refuseReason;
-    private String  env;
+    private Long auditorId;
+    private String reasonCode;
+    private String refuseReason;
+    private String env;
 
     public UserAudit() {}
 
@@ -36,13 +36,13 @@ public class UserAudit implements Serializable {
     }
 
     public UserAudit(
-        Long    userid,
-        String  name,
+        Long userid,
+        String name,
         Integer auditState,
-        Long    auditorId,
-        String  reasonCode,
-        String  refuseReason,
-        String  env
+        Long auditorId,
+        String reasonCode,
+        String refuseReason,
+        String env
     ) {
         this.userid = userid;
         this.name = name;
@@ -54,28 +54,28 @@ public class UserAudit implements Serializable {
     }
 
     /**
-     * Getter for <code>uc.user_audit.userid</code>.
+     * Getter for <code>uc.user_audit.userid</code>. 用户ID
      */
     public Long getUserid() {
         return this.userid;
     }
 
     /**
-     * Setter for <code>uc.user_audit.userid</code>.
+     * Setter for <code>uc.user_audit.userid</code>. 用户ID
      */
     public void setUserid(Long userid) {
         this.userid = userid;
     }
 
     /**
-     * Getter for <code>uc.user_audit.name</code>.
+     * Getter for <code>uc.user_audit.name</code>. 用户名
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Setter for <code>uc.user_audit.name</code>.
+     * Setter for <code>uc.user_audit.name</code>. 用户名
      */
     public void setName(String name) {
         this.name = name;
@@ -83,6 +83,7 @@ public class UserAudit implements Serializable {
 
     /**
      * Getter for <code>uc.user_audit.audit_state</code>.
+     * 审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)
      */
     public Integer getAuditState() {
         return this.auditState;
@@ -90,65 +91,134 @@ public class UserAudit implements Serializable {
 
     /**
      * Setter for <code>uc.user_audit.audit_state</code>.
+     * 审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)
      */
     public void setAuditState(Integer auditState) {
         this.auditState = auditState;
     }
 
     /**
-     * Getter for <code>uc.user_audit.auditor_id</code>.
+     * Getter for <code>uc.user_audit.auditor_id</code>. 审核员id
      */
     public Long getAuditorId() {
         return this.auditorId;
     }
 
     /**
-     * Setter for <code>uc.user_audit.auditor_id</code>.
+     * Setter for <code>uc.user_audit.auditor_id</code>. 审核员id
      */
     public void setAuditorId(Long auditorId) {
         this.auditorId = auditorId;
     }
 
     /**
-     * Getter for <code>uc.user_audit.reason_code</code>.
+     * Getter for <code>uc.user_audit.reason_code</code>. 拒绝理由
      */
     public String getReasonCode() {
         return this.reasonCode;
     }
 
     /**
-     * Setter for <code>uc.user_audit.reason_code</code>.
+     * Setter for <code>uc.user_audit.reason_code</code>. 拒绝理由
      */
     public void setReasonCode(String reasonCode) {
         this.reasonCode = reasonCode;
     }
 
     /**
-     * Getter for <code>uc.user_audit.refuse_reason</code>.
+     * Getter for <code>uc.user_audit.refuse_reason</code>. 拒绝原因
      */
     public String getRefuseReason() {
         return this.refuseReason;
     }
 
     /**
-     * Setter for <code>uc.user_audit.refuse_reason</code>.
+     * Setter for <code>uc.user_audit.refuse_reason</code>. 拒绝原因
      */
     public void setRefuseReason(String refuseReason) {
         this.refuseReason = refuseReason;
     }
 
     /**
-     * Getter for <code>uc.user_audit.env</code>.
+     * Getter for <code>uc.user_audit.env</code>. 环境标
      */
     public String getEnv() {
         return this.env;
     }
 
     /**
-     * Setter for <code>uc.user_audit.env</code>.
+     * Setter for <code>uc.user_audit.env</code>. 环境标
      */
     public void setEnv(String env) {
         this.env = env;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UserAudit other = (UserAudit) obj;
+        if (this.userid == null) {
+            if (other.userid != null)
+                return false;
+        }
+        else if (!this.userid.equals(other.userid))
+            return false;
+        if (this.name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!this.name.equals(other.name))
+            return false;
+        if (this.auditState == null) {
+            if (other.auditState != null)
+                return false;
+        }
+        else if (!this.auditState.equals(other.auditState))
+            return false;
+        if (this.auditorId == null) {
+            if (other.auditorId != null)
+                return false;
+        }
+        else if (!this.auditorId.equals(other.auditorId))
+            return false;
+        if (this.reasonCode == null) {
+            if (other.reasonCode != null)
+                return false;
+        }
+        else if (!this.reasonCode.equals(other.reasonCode))
+            return false;
+        if (this.refuseReason == null) {
+            if (other.refuseReason != null)
+                return false;
+        }
+        else if (!this.refuseReason.equals(other.refuseReason))
+            return false;
+        if (this.env == null) {
+            if (other.env != null)
+                return false;
+        }
+        else if (!this.env.equals(other.env))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.userid == null) ? 0 : this.userid.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.auditState == null) ? 0 : this.auditState.hashCode());
+        result = prime * result + ((this.auditorId == null) ? 0 : this.auditorId.hashCode());
+        result = prime * result + ((this.reasonCode == null) ? 0 : this.reasonCode.hashCode());
+        result = prime * result + ((this.refuseReason == null) ? 0 : this.refuseReason.hashCode());
+        result = prime * result + ((this.env == null) ? 0 : this.env.hashCode());
+        return result;
     }
 
     @Override

@@ -60,9 +60,10 @@ public class Uc extends SchemaImpl {
 
     @Override
     public final List<Table<?>> getTables() {
-        return Arrays.<Table<?>>asList(
+        return Arrays.asList(
             User.USER,
             UserAudit.USER_AUDIT,
-            UserTag.USER_TAG);
+            UserTag.USER_TAG
+        );
     }
 }

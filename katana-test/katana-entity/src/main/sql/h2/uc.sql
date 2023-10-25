@@ -8,6 +8,7 @@ CREATE TABLE `user`
     `name`        varchar(16) NOT NULL DEFAULT '' COMMENT '账户名称',
     `phone`       varchar(20) NOT NULL DEFAULT '' COMMENT '电话',
     `email`       varchar(20) NOT NULL DEFAULT '' COMMENT '邮箱',
+    `contact`     varchar(20) NOT NULL DEFAULT '' COMMENT '联系人',
     `create_time` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `tenant_code` varchar(16)  NOT NULL DEFAULT '' COMMENT '租户编码',

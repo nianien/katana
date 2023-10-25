@@ -24,84 +24,84 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>uc.user_tag.id</code>.
+     * Setter for <code>uc.user_tag.id</code>. 主键
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.id</code>.
+     * Getter for <code>uc.user_tag.id</code>. 主键
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>uc.user_tag.userid</code>.
+     * Setter for <code>uc.user_tag.userid</code>. 用户id
      */
     public void setUserid(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.userid</code>.
+     * Getter for <code>uc.user_tag.userid</code>. 用户id
      */
     public Long getUserid() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>uc.user_tag.tag</code>.
+     * Setter for <code>uc.user_tag.tag</code>. 账户标签
      */
     public void setTag(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.tag</code>.
+     * Getter for <code>uc.user_tag.tag</code>. 账户标签
      */
     public String getTag() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>uc.user_tag.create_time</code>.
+     * Setter for <code>uc.user_tag.create_time</code>. 创建时间
      */
     public void setCreateTime(Date value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.create_time</code>.
+     * Getter for <code>uc.user_tag.create_time</code>. 创建时间
      */
     public Date getCreateTime() {
         return (Date) get(3);
     }
 
     /**
-     * Setter for <code>uc.user_tag.modify_time</code>.
+     * Setter for <code>uc.user_tag.modify_time</code>. 修改时间
      */
     public void setModifyTime(Date value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.modify_time</code>.
+     * Getter for <code>uc.user_tag.modify_time</code>. 修改时间
      */
     public Date getModifyTime() {
         return (Date) get(4);
     }
 
     /**
-     * Setter for <code>uc.user_tag.env</code>.
+     * Setter for <code>uc.user_tag.env</code>. 环境标
      */
     public void setEnv(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.env</code>.
+     * Getter for <code>uc.user_tag.env</code>. 环境标
      */
     public String getEnv() {
         return (String) get(5);
@@ -290,5 +290,21 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
         setCreateTime(createTime);
         setModifyTime(modifyTime);
         setEnv(env);
+    }
+
+    /**
+     * Create a detached, initialised UserTagRecord
+     */
+    public UserTagRecord(com.katana.demo.entity.uc.tables.pojos.UserTag value) {
+        super(UserTag.USER_TAG);
+
+        if (value != null) {
+            setId(value.getId());
+            setUserid(value.getUserid());
+            setTag(value.getTag());
+            setCreateTime(value.getCreateTime());
+            setModifyTime(value.getModifyTime());
+            setEnv(value.getEnv());
+        }
     }
 }

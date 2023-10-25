@@ -7,20 +7,21 @@ package com.katana.demo.entity.uc.tables;
 import com.katana.demo.entity.uc.Keys;
 import com.katana.demo.entity.uc.Uc;
 import com.katana.demo.entity.uc.tables.records.UserRecord;
-import com.katana.jooq.converter.EncryptConverter;
 import com.katana.jooq.converter.LocalDateTimeConverter;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function9;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Records;
+import org.jooq.Row9;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -52,44 +53,49 @@ public class User extends TableImpl<UserRecord> {
     }
 
     /**
-     * The column <code>uc.user.id</code>.
+     * The column <code>uc.user.id</code>. 账户ID
      */
-    public final TableField<UserRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "账户ID");
 
     /**
-     * The column <code>uc.user.name</code>.
+     * The column <code>uc.user.name</code>. 账户名称
      */
-    public final TableField<UserRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "账户名称");
 
     /**
-     * The column <code>uc.user.phone</code>.
+     * The column <code>uc.user.phone</code>. 电话
      */
-    public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
+    public final TableField<UserRecord, String> PHONE = createField(DSL.name("phone"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "电话");
 
     /**
-     * The column <code>uc.user.email</code>.
+     * The column <code>uc.user.email</code>. 邮箱
      */
-    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "", new EncryptConverter());
+    public final TableField<UserRecord, String> EMAIL = createField(DSL.name("email"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "邮箱");
 
     /**
-     * The column <code>uc.user.create_time</code>.
+     * The column <code>uc.user.contact</code>. 联系人
      */
-    public final TableField<UserRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "", new LocalDateTimeConverter());
+    public final TableField<UserRecord, String> CONTACT = createField(DSL.name("contact"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "联系人");
 
     /**
-     * The column <code>uc.user.update_time</code>.
+     * The column <code>uc.user.create_time</code>. 创建时间
      */
-    public final TableField<UserRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", SQLDataType.LOCALDATETIME)), this, "", new LocalDateTimeConverter());
+    public final TableField<UserRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间", new LocalDateTimeConverter());
 
     /**
-     * The column <code>uc.user.tenant_code</code>.
+     * The column <code>uc.user.update_time</code>. 更新时间
      */
-    public final TableField<UserRecord, String> TENANT_CODE = createField(DSL.name("tenant_code"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "更新时间", new LocalDateTimeConverter());
 
     /**
-     * The column <code>uc.user.env</code>.
+     * The column <code>uc.user.tenant_code</code>. 租户编码
      */
-    public final TableField<UserRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserRecord, String> TENANT_CODE = createField(DSL.name("tenant_code"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "租户编码");
+
+    /**
+     * The column <code>uc.user.env</code>. 环境
+     */
+    public final TableField<UserRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "环境");
 
     private User(Name alias, Table<UserRecord> aliased) {
         this(alias, aliased, null);
@@ -126,7 +132,7 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public Schema getSchema() {
-        return Uc.UC;
+        return aliased() ? null : Uc.UC;
     }
 
     @Override
@@ -140,11 +146,6 @@ public class User extends TableImpl<UserRecord> {
     }
 
     @Override
-    public List<UniqueKey<UserRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserRecord>>asList(Keys.CONSTRAINT_3);
-    }
-
-    @Override
     public User as(String alias) {
         return new User(DSL.name(alias), this);
     }
@@ -152,6 +153,11 @@ public class User extends TableImpl<UserRecord> {
     @Override
     public User as(Name alias) {
         return new User(alias, this);
+    }
+
+    @Override
+    public User as(Table<?> alias) {
+        return new User(alias.getQualifiedName(), this);
     }
 
     /**
@@ -170,12 +176,35 @@ public class User extends TableImpl<UserRecord> {
         return new User(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public User rename(Table<?> name) {
+        return new User(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, String, String, String, Date, Date, String, String> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<Long, String, String, String, String, Date, Date, String, String> fieldsRow() {
+        return (Row9) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function9<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Date, ? super Date, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function9<? super Long, ? super String, ? super String, ? super String, ? super String, ? super Date, ? super Date, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }

@@ -11,9 +11,10 @@
         <revision>1.0.0-SNAPSHOT</revision>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jooq.version>3.14.15</jooq.version>
+        <jooq.version>3.18.0</jooq.version>
         <lombok.version>1.18.20</lombok.version>
-        <cudrania.version>1.0.4-jdk17</cudrania.version>
+        <cudrania.version>1.2.0-jdk17</cudrania.version>
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
     </properties>
 
     <modules>
@@ -35,14 +36,20 @@
                 <version>${lombok.version}</version>
             </dependency>
             <dependency>
+                <groupId>io.github.nianien</groupId>
+                <artifactId>cudrania</artifactId>
+                <version>${cudrania.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq</artifactId>
                 <version>${jooq.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.github.nianien</groupId>
-                <artifactId>cudrania</artifactId>
-                <version>${cudrania.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter.version}</version>
+                <optional>true</optional>
             </dependency>
         </dependencies>
     </dependencyManagement>

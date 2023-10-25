@@ -8,15 +8,17 @@ import com.katana.demo.entity.uc.Keys;
 import com.katana.demo.entity.uc.Uc;
 import com.katana.demo.entity.uc.tables.records.UserAuditRecord;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.function.Function;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Function7;
 import org.jooq.Name;
 import org.jooq.Record;
+import org.jooq.Records;
 import org.jooq.Row7;
 import org.jooq.Schema;
+import org.jooq.SelectField;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
@@ -48,39 +50,40 @@ public class UserAudit extends TableImpl<UserAuditRecord> {
     }
 
     /**
-     * The column <code>uc.user_audit.userid</code>.
+     * The column <code>uc.user_audit.userid</code>. 用户ID
      */
-    public final TableField<UserAuditRecord, Long> USERID = createField(DSL.name("userid"), SQLDataType.BIGINT.nullable(false), this, "");
+    public final TableField<UserAuditRecord, Long> USERID = createField(DSL.name("userid"), SQLDataType.BIGINT.nullable(false), this, "用户ID");
 
     /**
-     * The column <code>uc.user_audit.name</code>.
+     * The column <code>uc.user_audit.name</code>. 用户名
      */
-    public final TableField<UserAuditRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(64).nullable(false), this, "");
+    public final TableField<UserAuditRecord, String> NAME = createField(DSL.name("name"), SQLDataType.VARCHAR(64).nullable(false), this, "用户名");
 
     /**
      * The column <code>uc.user_audit.audit_state</code>.
+     * 审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)
      */
-    public final TableField<UserAuditRecord, Integer> AUDIT_STATE = createField(DSL.name("audit_state"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field("'5'", SQLDataType.INTEGER)), this, "");
+    public final TableField<UserAuditRecord, Integer> AUDIT_STATE = createField(DSL.name("audit_state"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("'5'"), SQLDataType.INTEGER)), this, "审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)");
 
     /**
-     * The column <code>uc.user_audit.auditor_id</code>.
+     * The column <code>uc.user_audit.auditor_id</code>. 审核员id
      */
-    public final TableField<UserAuditRecord, Long> AUDITOR_ID = createField(DSL.name("auditor_id"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field("'-1'", SQLDataType.BIGINT)), this, "");
+    public final TableField<UserAuditRecord, Long> AUDITOR_ID = createField(DSL.name("auditor_id"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("'-1'"), SQLDataType.BIGINT)), this, "审核员id");
 
     /**
-     * The column <code>uc.user_audit.reason_code</code>.
+     * The column <code>uc.user_audit.reason_code</code>. 拒绝理由
      */
-    public final TableField<UserAuditRecord, String> REASON_CODE = createField(DSL.name("reason_code"), SQLDataType.VARCHAR(256).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserAuditRecord, String> REASON_CODE = createField(DSL.name("reason_code"), SQLDataType.VARCHAR(256).defaultValue(DSL.field(DSL.raw("NULL"), SQLDataType.VARCHAR)), this, "拒绝理由");
 
     /**
-     * The column <code>uc.user_audit.refuse_reason</code>.
+     * The column <code>uc.user_audit.refuse_reason</code>. 拒绝原因
      */
-    public final TableField<UserAuditRecord, String> REFUSE_REASON = createField(DSL.name("refuse_reason"), SQLDataType.VARCHAR(1024).defaultValue(DSL.field("NULL", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserAuditRecord, String> REFUSE_REASON = createField(DSL.name("refuse_reason"), SQLDataType.VARCHAR(1024).defaultValue(DSL.field(DSL.raw("NULL"), SQLDataType.VARCHAR)), this, "拒绝原因");
 
     /**
-     * The column <code>uc.user_audit.env</code>.
+     * The column <code>uc.user_audit.env</code>. 环境标
      */
-    public final TableField<UserAuditRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserAuditRecord, String> ENV = createField(DSL.name("env"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field(DSL.raw("''"), SQLDataType.VARCHAR)), this, "环境标");
 
     private UserAudit(Name alias, Table<UserAuditRecord> aliased) {
         this(alias, aliased, null);
@@ -117,17 +120,12 @@ public class UserAudit extends TableImpl<UserAuditRecord> {
 
     @Override
     public Schema getSchema() {
-        return Uc.UC;
+        return aliased() ? null : Uc.UC;
     }
 
     @Override
     public UniqueKey<UserAuditRecord> getPrimaryKey() {
         return Keys.CONSTRAINT_7;
-    }
-
-    @Override
-    public List<UniqueKey<UserAuditRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserAuditRecord>>asList(Keys.CONSTRAINT_7);
     }
 
     @Override
@@ -138,6 +136,11 @@ public class UserAudit extends TableImpl<UserAuditRecord> {
     @Override
     public UserAudit as(Name alias) {
         return new UserAudit(alias, this);
+    }
+
+    @Override
+    public UserAudit as(Table<?> alias) {
+        return new UserAudit(alias.getQualifiedName(), this);
     }
 
     /**
@@ -156,6 +159,14 @@ public class UserAudit extends TableImpl<UserAuditRecord> {
         return new UserAudit(name, null);
     }
 
+    /**
+     * Rename this table
+     */
+    @Override
+    public UserAudit rename(Table<?> name) {
+        return new UserAudit(name.getQualifiedName(), null);
+    }
+
     // -------------------------------------------------------------------------
     // Row7 type methods
     // -------------------------------------------------------------------------
@@ -163,5 +174,20 @@ public class UserAudit extends TableImpl<UserAuditRecord> {
     @Override
     public Row7<Long, String, Integer, Long, String, String, String> fieldsRow() {
         return (Row7) super.fieldsRow();
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     */
+    public <U> SelectField<U> mapping(Function7<? super Long, ? super String, ? super Integer, ? super Long, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(Records.mapping(from));
+    }
+
+    /**
+     * Convenience mapping calling {@link SelectField#convertFrom(Class,
+     * Function)}.
+     */
+    public <U> SelectField<U> mapping(Class<U> toType, Function7<? super Long, ? super String, ? super Integer, ? super Long, ? super String, ? super String, ? super String, ? extends U> from) {
+        return convertFrom(toType, Records.mapping(from));
     }
 }
