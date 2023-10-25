@@ -10,7 +10,7 @@ CREATE TABLE `user`
     `email`       varchar(20) NOT NULL DEFAULT '' COMMENT '邮箱',
     `create_time` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `tenant_code` varchar(8)  NOT NULL DEFAULT '' COMMENT '租户编码',
+    `tenant_code` varchar(16)  NOT NULL DEFAULT '' COMMENT '租户编码',
     `env`         varchar(8)  NOT NULL DEFAULT '' COMMENT '环境',
     PRIMARY KEY (`id`)
 )/* ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户信息表'*/;

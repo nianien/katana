@@ -84,7 +84,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>uc.user.tenant_code</code>.
      */
-    public final TableField<UserRecord, String> TENANT_CODE = createField(DSL.name("tenant_code"), SQLDataType.VARCHAR(8).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
+    public final TableField<UserRecord, String> TENANT_CODE = createField(DSL.name("tenant_code"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field("''", SQLDataType.VARCHAR)), this, "");
 
     /**
      * The column <code>uc.user.env</code>.
