@@ -61,7 +61,7 @@ uppercase).
 
 ## 2. JOOQ for H2
 
-### 2.1. DDL is <font color=red>unquoted</font> with ```\"```
+### 2.1 DDL is <font color=red>unquoted</font> with ```\"```
 
 DSL Context set as follows:
 
@@ -69,7 +69,7 @@ DSL Context set as follows:
 
     new Settings().withRenderNameStyle(RenderNameStyle.AS_IS)
 
-### 2.2. DDL is <font color=red>quoted</font> with ```\"```
+### 2.2 DDL is <font color=red>quoted</font> with ```\"```
 
 DSL Context set as follows:
 

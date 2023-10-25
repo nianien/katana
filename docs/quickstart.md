@@ -14,7 +14,7 @@ spring:
     password: sa
 ```
 
-## 1.2. 初始化
+## 1.2 初始化
 
 SpringBoot配置：
 
@@ -31,7 +31,7 @@ schema-h2.sql 用于初始化表结构
 data-h2.sql 用于初始化数据
 ```
 
-## 1.3. 控制台
+## 1.3 控制台
 
 SpringBoot配置：
 
@@ -55,7 +55,7 @@ spring:
 
 <font color=red>***基于H2的sql文件生成代码，不依赖数据库链接***</font>
 
-### 配置[jooqConfig.xml](../jooqConfig.xml)
+### 2.1 配置 [jooqConfig.xml](../jooqConfig.xml)
 
 ```xml
 
@@ -79,7 +79,7 @@ spring:
 </generator>
 ```
 
-### 配置maven
+### 2.2 配置maven
 
 ```xml
 
@@ -109,7 +109,7 @@ spring:
 </plugin>
 ```
 
-maven命令：
+***maven命令***
 
 ```shell
 mvn clean package
