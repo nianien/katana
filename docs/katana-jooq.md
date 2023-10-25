@@ -245,8 +245,34 @@ UserRecord record=new UserRecord();
 
 由打印日志可以看出，在执行插入的时候，对于tenant_code字段，系统会将手动设置值替换为上下文中获取的字段值。另外在通过insert...select进行复制数据的时，也会对子查询增加过滤条件，保证只能复制当前租户的数据。
 
-#### 5. SQL条件生成
+#### 4. SQL条件链式校验
+
 ```java
+//long type = 100;
+//String name = "jack";
+//List<Integer> types = Arrays.asList(1001, 1002, 1003, 1004, 0, -1); 
+Condition condition=FluentCondition.and()
+        .when(gt0(type),UserTable.Type)
+        .when(notEmpty(name),UserTable.NAME::ne)
+        .when(notEmpty(types)
+        .then(e->e.stream()
+        .filter(i->i>0).toList())
+        .when(List::isEmpty)
+        .negate(),UserTable.TYPE::notIn)
+        .get();
+        System.out.println(dslContext.renderInlined(condition));
+```
+
+**执行结果**
+
+```text
+(id = 100 and name <> 'jack' and type not in (1001, 1002, 1003, 1004))
+```
+
+#### 5. SQL条件生成
+
+```java
+
 @Data
 public class GoodsQuery {
 
@@ -323,47 +349,27 @@ public class GoodsQuery {
 
 }
 
-GoodsQuery query = new GoodsQuery();
+    GoodsQuery query = new GoodsQuery();
 query.setSubmitTimeBegin(new Date());
-query.setSubmitTimeEnd(new Date());
-query.setSrcStoreName("abc");
-query.setIndustryName("ddd");
-query.setIndustryId(-100L);
-query.setId(100L);
-query.setPrice(new BigDecimal(1111));
+        query.setSubmitTimeEnd(new Date());
+        query.setSrcStoreName("abc");
+        query.setIndustryName("ddd");
+        query.setIndustryId(-100L);
+        query.setId(100L);
+        query.setPrice(new BigDecimal(1111));
 //默认Equals
-Condition condition = ConditionBuilder.byName()
+        Condition condition=ConditionBuilder.byName()
         //价格匹配
-        .match(GoodsQuery::getPrice, Operator.LT)
+        .match(GoodsQuery::getPrice,Operator.LT)
         //名称匹配
-        .match("(?i).*name.*", Operator.LIKE)
+        .match("(?i).*name.*",Operator.LIKE)
         .build(query);
-System.out.println(dslContext.renderInlined(condition));
+        System.out.println(dslContext.renderInlined(condition));
 ```
+
 **执行结果**
+
 ```text
 (industry_name like concat('%', replace(replace(replace('ddd', '!', '!!'), '%', '!%'), '_', '!_'), '%') escape '!' and out_submit_time <= {ts '2023-10-25 22:12:46.338'} and industry_id = -100 and out_submit_time >= {ts '2023-10-25 22:12:46.338'} and price < 1111 and id = 100 and src_store_name like concat('%', replace(replace(replace('abc', '!', '!!'), '%', '!%'), '_', '!_'), '%') escape '!')
 
-```
-
-#### 4. SQL条件链式校验
-
-```java
-//long type = 100;
-//String name = "jack";
-//List<Integer> types = Arrays.asList(1001, 1002, 1003, 1004, 0, -1); 
-Condition condition=FluentCondition.and()
-        .when(gt0(type),UserTable.Type)
-        .when(notEmpty(name),UserTable.NAME::ne)
-        .when(notEmpty(types)
-            .then(e->e.stream()
-            .filter(i->i>0).toList())
-            .when(List::isEmpty)
-            .negate(),UserTable.TYPE::notIn)
-        .get();
-System.out.println(dslContext.renderInlined(condition));
-```
-**执行结果**
-```text
-(id = 100 and name <> 'jack' and type not in (1001, 1002, 1003, 1004))
 ```
