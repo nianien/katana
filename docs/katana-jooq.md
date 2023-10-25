@@ -142,7 +142,7 @@ dslContext.update(USER)
         .set(USER.EMAIL,email)
         .set(USER.PHONE,phone)
 //delete without condition
-        dslContext.delete(USER)
+dslContext.delete(USER)
 ```
 
 **执行结果**
