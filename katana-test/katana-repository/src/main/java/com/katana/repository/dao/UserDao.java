@@ -2,11 +2,11 @@ package com.katana.repository.dao;
 
 import com.katana.demo.entity.uc.tables.pojos.User;
 import com.katana.demo.entity.uc.tables.records.UserRecord;
+import jakarta.annotation.Resource;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 import static com.katana.demo.entity.uc.Tables.*;

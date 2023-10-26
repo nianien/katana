@@ -28,7 +28,7 @@ spring:
 
 ```
 schema-h2.sql 用于初始化表结构
-data-h2.sql 用于初始化数据
+data-h2.sql.bak 用于初始化数据
 ```
 
 ## 1.3 控制台
