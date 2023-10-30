@@ -48,11 +48,11 @@ public class PerformanceListener implements DefaultListener {
     /**
      * 存储当前执行的SQL列表
      */
-    private static final ThreadLocal<List<String>> SQL_QUERIES = ThreadLocal.withInitial(() -> new ArrayList<>());
+    private static final ThreadLocal<List<String>> SQL_QUERIES = ThreadLocal.withInitial(ArrayList::new);
     /**
      * 整体SQL请求的计时器
      */
-    private static final ThreadLocal<StopWatch> STOP_WATCH = ThreadLocal.withInitial(() -> new StopWatch());
+    private static final ThreadLocal<StopWatch> STOP_WATCH = ThreadLocal.withInitial(StopWatch::new);
 
     @Override
     public void start(ExecuteContext ctx) {
