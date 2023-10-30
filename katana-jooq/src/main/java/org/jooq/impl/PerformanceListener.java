@@ -7,6 +7,7 @@ import org.jooq.tools.StopWatch;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * 基于jooq的数据库执行性能监听器，支持批量SQL
@@ -65,17 +66,7 @@ public class PerformanceListener implements DefaultListener {
     public void renderEnd(ExecuteContext ctx) {
         try {
             if (ctx.query() != null) {
-                String sql = ctx.query().toString();
-                //SQL超长时缩略打印
-                if (ENABLE_SQL_ABBR && sql.length() > SQL_ABBR_LENGTH) {
-                    // 优先缩略参数列表显示
-                    sql = sql.replaceAll(SQL_ABBR_PATTERNS[0], SQL_ABBR_PATTERNS[1]);
-                    //参数缩略后SQL仍超长，则进行截断
-                    if (sql.length() > SQL_ABBR_LENGTH) {
-                        sql = sql.substring(0, SQL_ABBR_LENGTH);
-                    }
-                }
-                SQL_QUERIES.get().add(sql);
+                SQL_QUERIES.get().add(ctx.query().toString());
             }
         } catch (Exception e) {
             //ignore
@@ -85,43 +76,52 @@ public class PerformanceListener implements DefaultListener {
 
     @Override
     public void executeEnd(ExecuteContext ctx) {
-        try {
-            StopWatch sw = STOP_WATCH.get();
-            String format = StopWatch.format(sw.split());
-            //enable show-sql or exists slow-query
-            if (SHOW_SQL || sw.split() > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME)) {
-                List<String> list = SQL_QUERIES.get();
-                if (list.size() > 0) {
-                    log.info("sql query by jooq cost {}:\n{}", format, list);
-                }
-            }
-            SQL_QUERIES.remove();
-            STOP_WATCH.remove();
-        } catch (Exception e) {
-            //ignore
-        }
+        printSql(false);
     }
 
 
     @Override
     public void exception(ExecuteContext ctx) {
-        try {
-            StopWatch sw = STOP_WATCH.get();
-            List<String> sqlList = SQL_QUERIES.get();
-            List<String> failedList = new ArrayList<>();
-            if (sqlList.size() > 0) {
-                failedList.add(sqlList.remove(sqlList.size() - 1));
-            }
-            String format = StopWatch.format(sw.split());
-            //enable show-sql or exists slow-query
-            if (SHOW_SQL || sw.split() > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME)) {
-                log.info("sql query by jooq cost {}:\nsucceed:{}\nfail:{}", format, sqlList, failedList);
-            }
-            SQL_QUERIES.remove();
-            STOP_WATCH.remove();
-        } catch (Exception e) {
-            //ignore
-        }
+        printSql(true);
     }
 
+
+    /**
+     * @param hasError 是否存在异常
+     */
+    private void printSql(boolean hasError) {
+        //enable show-sql or exists slow-query
+        try {
+            long costNanos = STOP_WATCH.get().split();
+            List<String> sqlList = SQL_QUERIES.get();
+            if (SHOW_SQL || costNanos > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME)) {
+                String timeCost = StopWatch.format(costNanos);
+                List<String> list = sqlList.stream().map(sql -> {
+                    //SQL超长时缩略打印
+                    if (ENABLE_SQL_ABBR && sql.length() > SQL_ABBR_LENGTH) {
+                        // 优先缩略参数列表显示
+                        sql = sql.replaceAll(SQL_ABBR_PATTERNS[0], SQL_ABBR_PATTERNS[1]);
+                        //参数缩略后SQL仍超长，则进行截断
+                        if (sql.length() > SQL_ABBR_LENGTH) {
+                            sql = sql.substring(0, SQL_ABBR_LENGTH);
+                        }
+                    }
+                    return sql;
+                }).collect(Collectors.toList());
+                int limit = hasError ? sqlList.size() - 1 : sqlList.size();
+                String succeed = list.subList(0, limit).stream().collect(Collectors.joining(";\n--------------------\n"));
+                String fail = list.subList(limit, list.size()).stream().collect(Collectors.joining(";\n--------------------\n"));
+                if (!hasError) {//all success
+                    log.info("sql query by jooq cost {}:\n{}", timeCost, succeed);
+                } else {//has failed
+                    log.info("sql query by jooq cost {}:\nsuccess:{}\nfailed:{}", timeCost, succeed, fail);
+                }
+            }
+        } catch (Exception e) {
+            //ignore
+        } finally {
+            SQL_QUERIES.remove();
+            STOP_WATCH.remove();
+        }
+    }
 }
