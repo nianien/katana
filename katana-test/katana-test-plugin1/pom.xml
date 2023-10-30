@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.nianien</groupId>
-            <artifactId>katana-plugin-test</artifactId>
+            <artifactId>katana-test-plugin</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
