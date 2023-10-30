@@ -1,7 +1,7 @@
 package com.katana.repository.dao;
 
-import com.katana.demo.entity.uc.tables.pojos.User;
-import com.katana.demo.entity.uc.tables.records.UserRecord;
+import com.katana.demo.entity.uc.tables.pojos.UserInfo;
+import com.katana.demo.entity.uc.tables.records.UserInfoRecord;
 import jakarta.annotation.Resource;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -22,9 +22,15 @@ public class UserDao {
     @Resource
     private DSLContext dslContext;
 
-    public List<User> find(String name) {
+    public List<UserInfo> abbr(Long[] idList) {
+        return dslContext.select().from(USER_INFO)
+                .where(USER_INFO.ID.in(idList))
+                .fetchInto(UserInfo.class);
+    }
 
-        com.katana.demo.entity.uc.tables.User ta = USER.as("a");
+    public List<UserInfo> find(String name) {
+
+        com.katana.demo.entity.uc.tables.UserInfo ta = USER_INFO.as("a");
         com.katana.demo.entity.uc.tables.UserAudit tb = USER_AUDIT.as("b");
         com.katana.demo.entity.uc.tables.UserTag td = USER_TAG.as("d");
         // join subquery and where subquery
@@ -37,22 +43,22 @@ public class UserDao {
                 .on(tb.as("c").USERID.eq(ta.ID))
                 .where(ta.NAME.eq(name))
                 .and(ta.ID.in(dslContext.select(td.USERID).from(td).where(td.USERID.ge(0L))))
-                .union(dslContext.select().from(USER)
-                        .where(USER.NAME.eq(name)))
-                .fetchInto(User.class);
+                .union(dslContext.select().from(USER_INFO)
+                        .where(USER_INFO.NAME.eq(name)))
+                .fetchInto(UserInfo.class);
     }
 
 
-    public List<User> get(String name) {
-        return dslContext.select().from(USER)
-                .where(USER.NAME.like(name))
-                .fetchInto(User.class);
+    public List<UserInfo> get(String name) {
+        return dslContext.select().from(USER_INFO)
+                .where(USER_INFO.NAME.like(name))
+                .fetchInto(UserInfo.class);
     }
 
     public int insert(String name, String phone, String email, int count) {
-        UserRecord[] records = new UserRecord[count];
+        UserInfoRecord[] records = new UserInfoRecord[count];
         for (int i = 0; i < count; i++) {
-            UserRecord record = new UserRecord();
+            UserInfoRecord record = new UserInfoRecord();
             record.setName(name);
             record.setPhone(phone);
             if (i % 2 == 0) {
@@ -65,37 +71,37 @@ public class UserDao {
         }
         dslContext.batchInsert(records).execute();
 
-        UserRecord record = new UserRecord();
+        UserInfoRecord record = new UserInfoRecord();
         record.setName(name);
         record.setPhone(phone);
         record.setEmail(email);
         record.setTenantCode("test");
-        UserRecord record2 = new UserRecord();
+        UserInfoRecord record2 = new UserInfoRecord();
         record2.setName(name);
         record2.setPhone(phone);
         record2.setEmail(email);
         record2.setTenantCode("test2");
-        dslContext.insertInto(USER).set(record).newRecord().set(record2).execute();
+        dslContext.insertInto(USER_INFO).set(record).newRecord().set(record2).execute();
         //id, name, phone, email, create_time, update_time, tenant_code, env
-        Field[] fields = new Field[]{USER.NAME, USER.PHONE, USER.EMAIL, USER.CREATE_TIME, USER.UPDATE_TIME, USER.TENANT_CODE, USER.ENV};
-        return dslContext.insertInto(USER, fields).select(
+        Field[] fields = new Field[]{USER_INFO.NAME, USER_INFO.PHONE, USER_INFO.EMAIL, USER_INFO.CREATE_TIME, USER_INFO.UPDATE_TIME, USER_INFO.TENANT_CODE, USER_INFO.ENV};
+        return dslContext.insertInto(USER_INFO, fields).select(
                 dslContext.select(fields)
-                        .from(USER).where(USER.TENANT_CODE.eq("test")).limit(1)).execute();
+                        .from(USER_INFO).where(USER_INFO.TENANT_CODE.eq("test")).limit(1)).execute();
     }
 
     public int update(String name, String phone, String email) {
-        return dslContext.update(USER)
-                .set(USER.EMAIL, email)
-                .set(USER.PHONE, phone)
-                .set(USER.TENANT_CODE, "tenant")
-                .where(USER.NAME.eq(name))
-                .and(USER.ID.in(dslContext.select(USER.ID).from(USER).where(USER.ID.ge(0L))))
+        return dslContext.update(USER_INFO)
+                .set(USER_INFO.EMAIL, email)
+                .set(USER_INFO.PHONE, phone)
+                .set(USER_INFO.TENANT_CODE, "tenant")
+                .where(USER_INFO.NAME.eq(name))
+                .and(USER_INFO.ID.in(dslContext.select(USER_INFO.ID).from(USER_INFO).where(USER_INFO.ID.ge(0L))))
                 .execute();
     }
 
     public int delete(String name) {
-        return dslContext.delete(USER)
-                .where(USER.NAME.eq(name))
+        return dslContext.delete(USER_INFO)
+                .where(USER_INFO.NAME.eq(name))
                 .execute();
     }
 }

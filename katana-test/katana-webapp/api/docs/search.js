@@ -18,43 +18,6 @@ api[0].list[0].list.push({
     url: 'http://localhost:63342/katana-jooq/jooq-test/api/docs',
     desc: '首页',
 });
-api[0].list.push({
-    alias: 'UserController',
-    order: '2',
-    link: '用户管理模块 created_on_2022/1/24',
-    desc: '用户管理模块 Created on 2022/1/24',
-    list: []
-})
-api[0].list[1].list.push({
-    order: '1',
-    deprecated: 'false',
-    url: 'http://localhost:63342/katana-jooq/jooq-test/api/docs/users/find/{name}',
-    desc: '查询用户',
-});
-api[0].list[1].list.push({
-    order: '2',
-    deprecated: 'false',
-    url: 'http://localhost:63342/katana-jooq/jooq-test/api/docs/users/{name}',
-    desc: '查询用户',
-});
-api[0].list[1].list.push({
-    order: '3',
-    deprecated: 'false',
-    url: 'http://localhost:63342/katana-jooq/jooq-test/api/docs/users/insert/{name}/{phone}/{email}',
-    desc: '注册用户',
-});
-api[0].list[1].list.push({
-    order: '4',
-    deprecated: 'false',
-    url: 'http://localhost:63342/katana-jooq/jooq-test/api/docs/users/update/{name}/{phone}/{email}',
-    desc: '修改用户',
-});
-api[0].list[1].list.push({
-    order: '5',
-    deprecated: 'false',
-    url: 'http://localhost:63342/katana-jooq/jooq-test/api/docs/users/delete/{name}',
-    desc: '用户查询',
-});
 document.onkeydown = keyDownSearch;
 function keyDownSearch(e) {
     const theEvent = e;

@@ -4,8 +4,8 @@
 package com.katana.demo.entity.uc;
 
 
-import com.katana.demo.entity.uc.tables.User;
 import com.katana.demo.entity.uc.tables.UserAudit;
+import com.katana.demo.entity.uc.tables.UserInfo;
 import com.katana.demo.entity.uc.tables.UserTag;
 
 
@@ -16,14 +16,14 @@ import com.katana.demo.entity.uc.tables.UserTag;
 public class Tables {
 
     /**
-     * The table <code>uc.user</code>.
-     */
-    public static final User USER = User.USER;
-
-    /**
      * The table <code>uc.user_audit</code>.
      */
     public static final UserAudit USER_AUDIT = UserAudit.USER_AUDIT;
+
+    /**
+     * The table <code>uc.user_info</code>.
+     */
+    public static final UserInfo USER_INFO = UserInfo.USER_INFO;
 
     /**
      * The table <code>uc.user_tag</code>.

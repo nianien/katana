@@ -90,16 +90,30 @@ public class ConditionBuilderTest {
                         .when(List::isEmpty).negate(), UserTable.TYPE::notIn)
                 .get();
 
+
         System.out.println(dslContext.renderInlined(condition));
         System.out.println(dslContext.renderNamedOrInlinedParams(condition));
         System.out.println("==========================");
-        System.out.println(dslContext.render(condition));
+        String render = dslContext.render(condition);
+        System.out.println(render);
+        List<Object> bindValues = dslContext.extractBindValues(condition);
+        System.out.println(dslContext.renderInlined(dslContext.query(render, bindValues.toArray())));
         System.out.println(dslContext.extractBindValues(condition));
         System.out.println("==========================");
         System.out.println(dslContext.renderNamedParams(condition));
         System.out.println(dslContext.extractParams(condition));
+
     }
 
+    public static void main(String[] args) {
+        System.out.println(System.getProperty("jooq.enable.sql.abbr"));
+        String sql = "select * from user where id  in (1001,1001, 1002, 1003, 1004, 1005, 1006, 1007) and type in('a','b','c','d','e','f','g','h','i','j','k','l','m')) and name in(select name from user where name in('a','b','c','d','e','f','g','h','i','j','k','l','m'))";
+        System.out.println(sql.replaceAll("(([^,]+,){3})([^)]*)", "$1..."));
+//        System.out.println(sql.replaceAll("(.*\\([^,]+)((,[^,]+){3})((,[^,]+)+\\).*)", "$3"));
+//        System.out.println(sql.replaceAll("(.*\\([^,]+)((,[^,]+){3})((,[^,]+)+\\).*)", "$1$4"));
+//        System.out.println("('1001', 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004)".matches(".*\\([^,]+((,[^,]+){10})(,[^,]+)+\\).*"));
+        System.out.println("abc123def".replaceAll("([a-z]+)","..."));
+    }
 
     @Test
     public void testBuilderByName() {
@@ -115,11 +129,11 @@ public class ConditionBuilderTest {
         Condition condition = ConditionBuilder.byName()
                 .match(GoodsQuery::getPrice, Operator.LT)
                 .match("(?i).*name.*", Operator.LIKE)
-//                .filter(f -> {
-//                    if (f.getField().getName().equals("src_store_name")) {
-//                        f.setOperator(Operator.NE);
-//                    }
-//                })
+                .filter(f -> {
+                    if (f.getField().getName().equals("src_store_name")) {
+                        f.setOperator(Operator.NE);
+                    }
+                })
                 .build(query);
         System.out.println(dslContext.renderInlined(condition));
     }

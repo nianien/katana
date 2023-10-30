@@ -5,8 +5,8 @@ package com.katana.demo.entity.uc;
 
 
 import com.katana.demo.entity.DefaultCatalog;
-import com.katana.demo.entity.uc.tables.User;
 import com.katana.demo.entity.uc.tables.UserAudit;
+import com.katana.demo.entity.uc.tables.UserInfo;
 import com.katana.demo.entity.uc.tables.UserTag;
 
 import java.util.Arrays;
@@ -31,14 +31,14 @@ public class Uc extends SchemaImpl {
     public static final Uc UC = new Uc();
 
     /**
-     * The table <code>uc.user</code>.
-     */
-    public final User USER = User.USER;
-
-    /**
      * The table <code>uc.user_audit</code>.
      */
     public final UserAudit USER_AUDIT = UserAudit.USER_AUDIT;
+
+    /**
+     * The table <code>uc.user_info</code>.
+     */
+    public final UserInfo USER_INFO = UserInfo.USER_INFO;
 
     /**
      * The table <code>uc.user_tag</code>.
@@ -61,8 +61,8 @@ public class Uc extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            User.USER,
             UserAudit.USER_AUDIT,
+            UserInfo.USER_INFO,
             UserTag.USER_TAG
         );
     }

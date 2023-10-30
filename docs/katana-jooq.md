@@ -74,7 +74,9 @@ UserRecord[]records=new UserRecord[count];
 下图显示了渲染后的SQL语句执行耗时：
 ![SQL执行耗时](./images/sql-cost.png)
 
-注意：批量SQL执行是统计整体耗时，并以数组的形式显示每条执行SQL。如果其中有执行失败的SQL，则会分别显示成功的SQL和失败的SQL，示例如下：
+注意：
+
+***1、*** 批量SQL执行是统计整体耗时，并以数组的形式显示每条执行SQL。如果其中有执行失败的SQL，则会分别显示成功的SQL和失败的SQL:
 
 ```java
 UserRecord[]records=new UserRecord[count];
@@ -96,6 +98,18 @@ UserRecord[]records=new UserRecord[count];
         record.setPhone(phone);
         record.setEmail(email);
         dslContext.insertInto(USER).set(record).newRecord().set(record).execute();
+```
+***2、*** SQLDialect对于quote的定义在Identifiers#QUOTES中，可以根据实际情况进行修改，以适应不同的数据库方言：
+
+```java
+final class Identifiers {
+
+    static final EnumMap<SQLDialect, char[][][]> QUOTES;
+
+```
+***3、*** 如果SQL超长，可以启动缩略打印；如果参数列表过长，同样支持截断
+```text
+select * from user where id  in (1001,1001, 1002,...) and auditor in(select name from user_audit where name in('a','b','c',...))
 ```
 
 ![SQL批量执行耗时](./images/sql-cost2.png)

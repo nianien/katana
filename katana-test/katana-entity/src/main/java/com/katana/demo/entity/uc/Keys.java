@@ -4,11 +4,11 @@
 package com.katana.demo.entity.uc;
 
 
-import com.katana.demo.entity.uc.tables.User;
 import com.katana.demo.entity.uc.tables.UserAudit;
+import com.katana.demo.entity.uc.tables.UserInfo;
 import com.katana.demo.entity.uc.tables.UserTag;
 import com.katana.demo.entity.uc.tables.records.UserAuditRecord;
-import com.katana.demo.entity.uc.tables.records.UserRecord;
+import com.katana.demo.entity.uc.tables.records.UserInfoRecord;
 import com.katana.demo.entity.uc.tables.records.UserTagRecord;
 
 import org.jooq.TableField;
@@ -27,7 +27,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<UserRecord> CONSTRAINT_3 = Internal.createUniqueKey(User.USER, DSL.name("CONSTRAINT_3"), new TableField[] { User.USER.ID }, true);
     public static final UniqueKey<UserAuditRecord> CONSTRAINT_7 = Internal.createUniqueKey(UserAudit.USER_AUDIT, DSL.name("CONSTRAINT_7"), new TableField[] { UserAudit.USER_AUDIT.USERID }, true);
+    public static final UniqueKey<UserInfoRecord> CONSTRAINT_1 = Internal.createUniqueKey(UserInfo.USER_INFO, DSL.name("CONSTRAINT_1"), new TableField[] { UserInfo.USER_INFO.ID }, true);
     public static final UniqueKey<UserTagRecord> CONSTRAINT_F = Internal.createUniqueKey(UserTag.USER_TAG, DSL.name("CONSTRAINT_F"), new TableField[] { UserTag.USER_TAG.ID }, true);
 }
