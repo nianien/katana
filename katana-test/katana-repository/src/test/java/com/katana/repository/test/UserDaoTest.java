@@ -20,7 +20,7 @@ import static com.katana.demo.entity.uc.Tables.USER_INFO;
  * @created : 2023/10/30, 星期一
  * Copyright (c) 2004-2029 All Rights Reserved.
  **/
-public class DaoTest {
+public class UserDaoTest {
     private static DSLContext dslContext;
 
     @BeforeAll
