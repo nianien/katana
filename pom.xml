@@ -14,13 +14,8 @@
         <springboot.version>3.1.5</springboot.version>
         <cudrania.version>1.2.0-jdk17</cudrania.version>
         <jooq.version>3.18.0</jooq.version>
-        <!--        <lombok.version>1.18.22</lombok.version>-->
-        <!--        <junit-jupiter.version>5.9.2</junit-jupiter.version>-->
-        <!--        <springboot.version>3.1.5</springboot.version>-->
-        <!--        <spring.version>6.0.9</spring.version>-->
         <jakarta.servlet-api.servlet-api.version>6.0.0</jakarta.servlet-api.servlet-api.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <!--        <junit-jupiter.version>5.9.2</junit-jupiter.version>-->
     </properties>
 
     <modules>
@@ -42,46 +37,7 @@
                 <artifactId>cudrania</artifactId>
                 <version>${cudrania.version}</version>
             </dependency>
-            <!--            <dependency>-->
-            <!--                <groupId>org.projectlombok</groupId>-->
-            <!--                <artifactId>lombok</artifactId>-->
-            <!--                <version>${lombok.version}</version>-->
-            <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.jooq</groupId>-->
-            <!--                <artifactId>jooq</artifactId>-->
-            <!--                <version>${jooq.version}</version>-->
-            <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.junit.jupiter</groupId>-->
-            <!--                <artifactId>junit-jupiter</artifactId>-->
-            <!--                <version>${junit-jupiter.version}</version>-->
-            <!--                <optional>true</optional>-->
-            <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.springframework</groupId>-->
-            <!--                <artifactId>spring-webmvc</artifactId>-->
-            <!--                <version>${spring.version}</version>-->
-            <!--                <optional>true</optional>-->
-            <!--            </dependency>-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.springframework</groupId>-->
-            <!--                <artifactId>spring-jdbc</artifactId>-->
-            <!--                <version>${spring.version}</version>-->
-            <!--                <optional>true</optional>-->
-            <!--            </dependency>-->
-            <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>${jakarta.servlet-api.servlet-api.version}</version>
-                <scope>provided</scope>
-            </dependency>
-<!--            <dependency>-->
-<!--                <groupId>javax.validation</groupId>-->
-<!--                <artifactId>validation-api</artifactId>-->
-<!--                <version>${validation-api.version}</version>-->
-<!--                <optional>true</optional>-->
-<!--            </dependency>-->
+
         </dependencies>
     </dependencyManagement>
     <!-- 依赖包 -->

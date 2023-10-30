@@ -1,0 +1,9 @@
+service:
+  name:pluginV1
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  aop:
+    proxy-target-class: false
+app:
+  version: V1

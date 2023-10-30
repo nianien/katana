@@ -1,0 +1,15 @@
+service:
+  name:testAPP
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  aop:
+    proxy-target-class: false
+logging:
+  pattern:
+    console: "${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}@%line){cyan} %clr(:) %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"
+  level:
+    root: info
+    org.springframework.web: trace
+#app:
+#  version: 1
