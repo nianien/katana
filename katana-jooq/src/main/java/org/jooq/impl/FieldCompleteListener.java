@@ -27,11 +27,11 @@ public class FieldCompleteListener implements DefaultListener {
     /**
      * 避免重复处理，使用WeakHashMap,在SQL处理完被移除
      */
-    private ThreadLocal<Map<Integer, Boolean>> visitedMap = ThreadLocal.withInitial(() -> new HashMap<>());
+    private final ThreadLocal<Map<Integer, Boolean>> visitedMap = ThreadLocal.withInitial(HashMap::new);
     /**
      * 需要自动补齐的字段
      */
-    private Map<String, Field<String>> AUTO_FIELDS = new HashMap<>();
+    private final Map<String, Field<String>> AUTO_FIELDS = new HashMap<>();
     /**
      * 需要补齐字段的默认值
      */
@@ -78,7 +78,7 @@ public class FieldCompleteListener implements DefaultListener {
      * @param autoFields
      */
     private void rewriteQuery(QueryPart query, Map<String, Field<String>> autoFields) {
-        //插入时,自动插入tenant_code
+        //插入时,自动插入field
         if (query instanceof InsertQueryImpl) {
             InsertQueryImpl insertQuery = (InsertQueryImpl) query;
             Table table = insertQuery.table();
@@ -86,14 +86,15 @@ public class FieldCompleteListener implements DefaultListener {
                 Field<String> field = table.field(v);
                 if (field != null) {
                     FieldMapsForInsert insertMaps = insertQuery.getInsertMaps();
-                    //适配匹配插入的场景
-                    insertMaps.values.put(field, createFieldValues(field, insertMaps.rows));
+                    Param<String> targetValue = targetValue(field);
+                    log.info("add condition to table[{}]:{} ", table, field.eq(targetValue));
+                    insertMaps.values.put(field, createFieldValues(targetValue, insertMaps.rows));
                 }
             });
         }
-        //更新时, 禁止tenant_code更新,增加tenant_code匹配
+        //更新时, 禁止field更新,增加field匹配
         if (query instanceof UpdateQueryImpl) {
-            UpdateQueryImpl updateQuery = (UpdateQueryImpl) query;
+            UpdateQueryImpl<?> updateQuery = (UpdateQueryImpl<?>) query;
             FieldMapForUpdate values = updateQuery.getValues();
             Table<?> table = updateQuery.table();
             autoFields.forEach((k, v) -> {
@@ -102,26 +103,32 @@ public class FieldCompleteListener implements DefaultListener {
                     //禁止手动更新
                     values.remove(field);
                 }
-                updateQuery.addConditions(field.eq(targetValue(field)));
+                if (field != null) {
+                    Param<String> targetValue = targetValue(field);
+                    log.info("add condition to table[{}]:{} ", table, field.eq(targetValue));
+                    updateQuery.addConditions(field.eq(targetValue));
+                }
             });
         }
 
         if (query instanceof DeleteQueryImpl) {
-            DeleteQueryImpl deleteQuery = (DeleteQueryImpl) query;
+            DeleteQueryImpl<?> deleteQuery = (DeleteQueryImpl<?>) query;
             Table<?> table = deleteQuery.table();
             autoFields.forEach((k, v) -> {
                 Field<String> field = table.field(v);
                 if (field != null) {
-                    deleteQuery.addConditions(field.eq(targetValue(field)));
+                    Param<String> targetValue = targetValue(field);
+                    log.info("add condition to table[{}]:{} ", table, field.eq(targetValue));
+                    deleteQuery.addConditions(field.eq(targetValue));
                 }
             });
         }
-        //查询时, 增加tenant_code匹配
+        //查询时, 增加field匹配
         if (query instanceof SelectQueryImpl) {
-            SelectQueryImpl selectQuery = (SelectQueryImpl) query;
+            SelectQueryImpl<?> selectQuery = (SelectQueryImpl<?>) query;
             TableList tables = selectQuery.getFrom();
             for (Table<?> table : tables.wrapped()) {
-                List<Table> targetTables = new ArrayList<>();
+                List<Table<?>> targetTables = new ArrayList<>();
                 //如果是join表,则需要分别匹配
                 if (table instanceof JoinTable) {
                     JoinTable jt = (JoinTable) table;
@@ -130,12 +137,16 @@ public class FieldCompleteListener implements DefaultListener {
                 } else {
                     targetTables.add(table);
                 }
-                for (Table t : targetTables) {
+                for (Table<?> t : targetTables) {
                     autoFields.forEach((k, v) -> {
                         Field<String> field = t.field(v);
                         if (field != null) {
-                            log.info("add condition to table[{}]:{} ", t, field.eq(targetValue(field)));
-                            selectQuery.addConditions(field.eq(targetValue(field)));
+                            Param<String> targetValue = targetValue(field);
+                            // 特定场景下，查询时禁止条件匹配
+                            if (!"*".equals(targetValue.getValue())) {
+                                log.info("add condition to table[{}]:{} ", t, field.eq(targetValue));
+                                selectQuery.addConditions(field.eq(targetValue));
+                            }
                         }
                     });
                 }
@@ -148,7 +159,7 @@ public class FieldCompleteListener implements DefaultListener {
      *
      * @return
      */
-    private Param<String> targetValue(Field field) {
+    private Param<String> targetValue(Field<?> field) {
         return DEFAULT_VALUES.get(field.getName()).get();
     }
 
@@ -156,14 +167,14 @@ public class FieldCompleteListener implements DefaultListener {
     /**
      * 生成指定字段的默认值
      *
-     * @param field 需要生成默认值的字段
+     * @param value 需要生成默认值的字段
      * @param rows  行数
      * @return
      */
-    private List createFieldValues(Field field, int rows) {
+    private List<Field<?>> createFieldValues(Param<String> value, int rows) {
         List<Field<?>> list = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
-            list.add(targetValue(field));
+            list.add(value);
         }
         return list;
     }
@@ -171,10 +182,6 @@ public class FieldCompleteListener implements DefaultListener {
 
     /**
      * 设置指定字段的当前值
-     *
-     * @param name
-     * @param value
-     * @return
      */
     public static String setFieldValue(String name, String value) {
         ThreadLocal<Param<String>> tl = DEFAULT_VALUES.get(name);
