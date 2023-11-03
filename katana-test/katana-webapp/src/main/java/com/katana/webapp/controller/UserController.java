@@ -22,7 +22,7 @@ import java.util.stream.LongStream;
 public class UserController {
 
     @Resource
-    private UserDao accountDao;
+    private UserDao userDao;
 
     /**
      * 查询用户数
@@ -32,7 +32,7 @@ public class UserController {
      */
     @GetMapping("/abbr/{limit}")
     public List<UserInfo> abbr(@PathVariable int limit) {
-        return accountDao.abbr(LongStream.range(1, limit + 1).mapToObj(e -> e).toArray(n -> new Long[n]));
+        return userDao.abbr(LongStream.range(1, limit + 1).mapToObj(e -> e).toArray(n -> new Long[n]));
     }
 
     /**
@@ -43,7 +43,7 @@ public class UserController {
      */
     @GetMapping("/find/{name}")
     public List<UserInfo> find(@PathVariable String name) {
-        return accountDao.find(name);
+        return userDao.find(name);
     }
 
     /**
@@ -54,7 +54,7 @@ public class UserController {
      */
     @GetMapping("/{name}")
     public List<UserInfo> get(@PathVariable String name) {
-        return accountDao.get(name);
+        return userDao.get(name);
     }
 
     /**
@@ -67,7 +67,7 @@ public class UserController {
      */
     @GetMapping("/insert/{name}/{phone}/{email}")
     public List<UserInfo> register(@PathVariable String name, @PathVariable String phone, @PathVariable String email) {
-        accountDao.insert(name, phone, email, 2);
+        userDao.insert(name, phone, email, 2);
         return get(name);
     }
 
@@ -80,7 +80,7 @@ public class UserController {
      */
     @GetMapping("/update/{name}/{phone}/{email}")
     public List<UserInfo> put(@PathVariable String name, @PathVariable String phone, @PathVariable String email) {
-        accountDao.update(name, phone, email);
+        userDao.update(name, phone, email);
         return get(name);
     }
 
@@ -92,7 +92,7 @@ public class UserController {
      */
     @GetMapping("/delete/{name}")
     public List<UserInfo> delete(@PathVariable String name) {
-        accountDao.delete(name);
+        userDao.delete(name);
         return get(name);
     }
 }
