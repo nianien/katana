@@ -94,7 +94,9 @@ public class PerformanceListener implements DefaultListener {
         try {
             long costNanos = STOP_WATCH.get().split();
             List<String> sqlList = SQL_QUERIES.get();
-            if (SHOW_SQL || costNanos > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME)) {
+            //
+            boolean isSlow = costNanos > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME);
+            if (SHOW_SQL || isSlow) {
                 String timeCost = StopWatch.format(costNanos);
                 List<String> list = sqlList.stream().map(sql -> {
                     //SQL超长时缩略打印
@@ -112,9 +114,17 @@ public class PerformanceListener implements DefaultListener {
                 String succeed = list.subList(0, limit).stream().collect(Collectors.joining(";\n--------------------\n"));
                 String fail = list.subList(limit, list.size()).stream().collect(Collectors.joining(";\n--------------------\n"));
                 if (!hasError) {//all success
-                    log.info("sql query by jooq cost {}:\n{}", timeCost, succeed);
+                    if (isSlow) {
+                        log.warn("slow sql query by jooq cost {}:\n{}", timeCost, succeed);
+                    } else {
+                        log.info("sql query by jooq cost {}:\n{}", timeCost, succeed);
+                    }
                 } else {//has failed
-                    log.info("sql query by jooq cost {}:\nsuccess:{}\nfailed:{}", timeCost, succeed, fail);
+                    if (isSlow) {
+                        log.warn("slow sql query by jooq cost {}:\nsuccess:{}\nfailed:{}", timeCost, succeed, fail);
+                    } else {
+                        log.info("sql query by jooq cost {}:\nsuccess:{}\nfailed:{}", timeCost, succeed, fail);
+                    }
                 }
             }
         } catch (Exception e) {
