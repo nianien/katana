@@ -1,5 +1,8 @@
 package org.jooq.impl;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.ExecuteContext;
 import org.jooq.tools.StopWatch;
@@ -15,45 +18,53 @@ import java.util.stream.Collectors;
  * @author liyifei
  */
 @Slf4j
+@Data
 public class PerformanceListener implements DefaultListener {
 
     /**
      * 是否显示执行的SQL
      */
-    private static final boolean SHOW_SQL = Boolean.valueOf(System.getProperty("jooq.show-sql", "true"));
+    private boolean showSql = true;
 
     /**
-     * 慢SQL阈值，默认
+     * 慢查询阈值，默认1000ms
      */
-    private static final long SLOW_QUERY_TIME = Long.valueOf(System.getProperty("jooq.slow-query-time", "1000"));
-
-    /**
-     * SQL参数个数超过100个时，只显示前100个参数
-     */
-    private static final int PARAM_ABBR_LENGTH = Integer.valueOf(System.getProperty("jooq.sql.abbr.param.limit", "1000"));
-
-    /**
-     * SQL长度超过10000时，只显示前10000个字符
-     */
-    private static final int SQL_ABBR_LENGTH = Integer.valueOf(System.getProperty("jooq.sq.abbr.length.limit", "10000"));
+    private long slowQueryThreshold = 1000;
 
     /**
      * 是否启用SQL缩略打印
      */
-    private static final boolean ENABLE_SQL_ABBR = Boolean.valueOf(System.getProperty("jooq.sql.abbr.enable", "true"));
-    /**
-     * SQL缩略打印，正则表达式替换
-     */
-    private static final String[] SQL_ABBR_PATTERNS = new String[]{"(([^,]+,){" + PARAM_ABBR_LENGTH + "})([^)]*)", "$1..."};
+    private boolean sqlAbbrEnabled = true;
 
     /**
-     * 存储当前执行的SQL列表
+     * SQL长度限制，超过限制的SQL将被截断打印，默认10000
      */
-    private static final ThreadLocal<List<String>> SQL_QUERIES = ThreadLocal.withInitial(ArrayList::new);
+    private int sqlAbbrLimit = 10000;
     /**
-     * 整体SQL请求的计时器
+     * IN参数列表长度限制，超过限制将被截断打印，默认1000
      */
-    private static final ThreadLocal<StopWatch> STOP_WATCH = ThreadLocal.withInitial(StopWatch::new);
+    private int paramAbbrLimit = 1000;
+
+
+    @Setter(AccessLevel.NONE)
+    private String[] sqlAbbrPatterns = sqlAbbrPatterns(paramAbbrLimit);
+
+    public void setSqlAbbrLimit(int sqlAbbrLimit) {
+        this.sqlAbbrLimit = sqlAbbrLimit;
+        this.sqlAbbrPatterns = sqlAbbrPatterns(paramAbbrLimit);
+    }
+
+
+    /**
+     * 存储正在执行的SQL列表
+     */
+    @Setter(AccessLevel.NONE)
+    private final ThreadLocal<List<String>> SQL_QUERIES = ThreadLocal.withInitial(ArrayList::new);
+    /**
+     * SQL执行计时器
+     */
+    @Setter(AccessLevel.NONE)
+    private final ThreadLocal<StopWatch> STOP_WATCH = ThreadLocal.withInitial(StopWatch::new);
 
     @Override
     public void start(ExecuteContext ctx) {
@@ -95,21 +106,10 @@ public class PerformanceListener implements DefaultListener {
             long costNanos = STOP_WATCH.get().split();
             List<String> sqlList = SQL_QUERIES.get();
             //
-            boolean isSlow = costNanos > TimeUnit.MILLISECONDS.toNanos(SLOW_QUERY_TIME);
-            if (SHOW_SQL || isSlow) {
+            boolean isSlow = costNanos > TimeUnit.MILLISECONDS.toNanos(slowQueryThreshold);
+            if (showSql || isSlow) {
                 String timeCost = StopWatch.format(costNanos);
-                List<String> list = sqlList.stream().map(sql -> {
-                    //SQL超长时缩略打印
-                    if (ENABLE_SQL_ABBR && sql.length() > SQL_ABBR_LENGTH) {
-                        // 优先缩略参数列表显示
-                        sql = sql.replaceAll(SQL_ABBR_PATTERNS[0], SQL_ABBR_PATTERNS[1]);
-                        //参数缩略后SQL仍超长，则进行截断
-                        if (sql.length() > SQL_ABBR_LENGTH) {
-                            sql = sql.substring(0, SQL_ABBR_LENGTH);
-                        }
-                    }
-                    return sql;
-                }).collect(Collectors.toList());
+                List<String> list = sqlList.stream().map(this::abbrSql).collect(Collectors.toList());
                 int limit = hasError ? sqlList.size() - 1 : sqlList.size();
                 String succeed = list.subList(0, limit).stream().collect(Collectors.joining(";\n--------------------\n"));
                 String fail = list.subList(limit, list.size()).stream().collect(Collectors.joining(";\n--------------------\n"));
@@ -128,10 +128,42 @@ public class PerformanceListener implements DefaultListener {
                 }
             }
         } catch (Exception e) {
+
             //ignore
         } finally {
             SQL_QUERIES.remove();
             STOP_WATCH.remove();
         }
     }
+
+    /**
+     * SQL缩略打印正则表达式
+     *
+     * @param paramAbbrLimit
+     * @return
+     */
+    public static String[] sqlAbbrPatterns(int paramAbbrLimit) {
+        return new String[]{"(\\(([^,]+,){" + paramAbbrLimit + "})([^)]*)(\\))", "$1...$4"};
+    }
+
+
+    /**
+     * SQL缩略打印
+     *
+     * @param sql
+     * @return
+     */
+    private String abbrSql(String sql) {
+        //SQL超长时缩略打印
+        if (sqlAbbrEnabled && sql.length() > sqlAbbrLimit) {
+            // 优先缩略参数列表显示
+            sql = sql.replaceAll(sqlAbbrPatterns[0], sqlAbbrPatterns[1]);
+            //参数缩略后SQL仍超长，则进行截断
+            if (sql.length() > sqlAbbrLimit) {
+                sql = sql.substring(0, sqlAbbrLimit);
+            }
+        }
+        return sql;
+    }
+
 }
