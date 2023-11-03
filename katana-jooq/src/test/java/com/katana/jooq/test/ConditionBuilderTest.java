@@ -105,15 +105,7 @@ public class ConditionBuilderTest {
 
     }
 
-    public static void main(String[] args) {
-        System.out.println(System.getProperty("jooq.enable.sql.abbr"));
-        String sql = "select * from user where id  in (1001,1001, 1002, 1003, 1004, 1005, 1006, 1007) and type in('a','b','c','d','e','f','g','h','i','j','k','l','m')) and name in(select name from user where name in('a','b','c','d','e','f','g','h','i','j','k','l','m'))";
-        System.out.println(sql.replaceAll("(([^,]+,){3})([^)]*)", "$1..."));
-//        System.out.println(sql.replaceAll("(.*\\([^,]+)((,[^,]+){3})((,[^,]+)+\\).*)", "$3"));
-//        System.out.println(sql.replaceAll("(.*\\([^,]+)((,[^,]+){3})((,[^,]+)+\\).*)", "$1$4"));
-//        System.out.println("('1001', 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004, 1002, 1003, 1004)".matches(".*\\([^,]+((,[^,]+){10})(,[^,]+)+\\).*"));
-        System.out.println("abc123def".replaceAll("([a-z]+)","..."));
-    }
+
 
     @Test
     public void testBuilderByName() {
