@@ -22,6 +22,7 @@ import static com.cudrania.core.functions.Params.notEmpty;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
+ * @author skyfalling
  * scm.com Inc.
  * Copyright (c) 2004-2021 All Rights Reserved.
  */
@@ -104,7 +105,6 @@ public class ConditionBuilderTest {
         System.out.println(dslContext.extractParams(condition));
 
     }
-
 
 
     @Test
