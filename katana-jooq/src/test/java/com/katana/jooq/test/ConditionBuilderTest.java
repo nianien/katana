@@ -1,5 +1,6 @@
 package com.katana.jooq.test;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.katana.jooq.condition.ConditionBuilder;
 import com.katana.jooq.condition.FluentCondition;
 import com.katana.jooq.condition.Operator;
@@ -144,6 +145,13 @@ public class ConditionBuilderTest {
         String sql = dslContext.renderInlined(condition);
         System.out.println(sql);
         assertTrue(sql.contains("src_store_name like"));
+    }
+
+
+    @Test
+    public void testCast() {
+        String sql = dslContext.renderInlined(UserTable.NAME.cast(Integer.class).lt(123));
+        System.out.println(sql);
     }
 
 }
