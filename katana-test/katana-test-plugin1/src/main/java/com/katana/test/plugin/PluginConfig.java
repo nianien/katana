@@ -10,7 +10,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  *
  * @author liyifei
  */
-@EnableAspectJAutoProxy(proxyTargetClass = false)
+@EnableAspectJAutoProxy
 @EnableAutoConfiguration
 @ComponentScan("com.katana.test.plugin")
 @Configuration

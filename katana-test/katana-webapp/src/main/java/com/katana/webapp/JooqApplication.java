@@ -6,6 +6,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,16 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @SpringBootApplication(scanBasePackages = "com.katana")
-
 public class JooqApplication {
 
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = new SpringApplicationBuilder(JooqJdbcConfig.class)
+        ConfigurableApplicationContext context = new SpringApplicationBuilder(JooqApplication.class)
                 .profiles("jdbc")
                 .child(JooqApplication.class).web(WebApplicationType.SERVLET)
                 .build().run(args);
-        System.out.println(context.getBean(JooqJdbcConfig.class));
     }
 
 
