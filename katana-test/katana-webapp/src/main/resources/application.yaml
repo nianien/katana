@@ -3,10 +3,10 @@ spring:
     name: katana-jooq
 logging:
   pattern: #%class{36}.%M %L
-    console: "${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%40.40class{39}#%M@%line){cyan} %clr(:) %m%n}"
+    console: "${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr([%40.40CML{36}]){cyan} %C#%M:%line %clr(:) %m%n}"
   level:
     root: info
-    org.springframework.web: trace
+    org.springframework: info
 
 server:
   port: 8080

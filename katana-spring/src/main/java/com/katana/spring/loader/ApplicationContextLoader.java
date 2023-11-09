@@ -1,5 +1,6 @@
 package com.katana.spring.loader;
 
+import com.cudrania.core.loader.FileClassLoader;
 import com.katana.spring.resolver.ClassLoaderResourcePatternResolver;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
