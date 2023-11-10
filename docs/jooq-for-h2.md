@@ -1,8 +1,22 @@
 # JOOQ for H2
 
-## 1. H2语法注意事项
+## 1. H2语法
 
-### 1.1 Quotes names
+### 1.2 Comment on table
+```h2
+CREATE TABLE `user_tag`
+(
+    `id`          bigint      NOT NULL AUTO_INCREMENT COMMENT '主键',
+    `userid`      bigint      NOT NULL COMMENT '用户id',
+    `tag`         varchar(64) NOT NULL DEFAULT '0' COMMENT '账户标签',
+    `create_time` timestamp   NOT NULL DEFAULT '2010-01-01 00:00:00' COMMENT '创建时间',
+    `modify_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `env`         varchar(8)  NOT NULL DEFAULT '' COMMENT '环境标',
+    PRIMARY KEY (`id`)
+);COMMENT ON TABLE `user_tag` IS '用户标签表';
+```
+
+### 1.2 Quotes names
 
 ------------------------------------------
 <font color=red>***Quotes names in H2 are case sensitive***</font>, as required by the SQL specification. That means:
@@ -41,7 +55,7 @@ But you need append this when creating the database, and each time you use it
 uppercase).
 
 
-### 1.2  Bit wise operation for H2
+### 1.3  Bit wise operation for H2
 
 ```
    a&b; --not work
@@ -49,7 +63,7 @@ uppercase).
    see also: BITOR,BITNOT
 ```
 
-### 1.3  insert newline for H2
+### 1.4  insert newline for H2
 
 ```
    CONCAT_WS(char(10), '威信', 'VX','薇芯')

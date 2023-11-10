@@ -16,17 +16,17 @@ import com.katana.demo.entity.uc.tables.UserTag;
 public class Tables {
 
     /**
-     * The table <code>uc.user_audit</code>.
+     * 用户审核表
      */
     public static final UserAudit USER_AUDIT = UserAudit.USER_AUDIT;
 
     /**
-     * The table <code>uc.user_info</code>.
+     * 用户信息表
      */
     public static final UserInfo USER_INFO = UserInfo.USER_INFO;
 
     /**
-     * The table <code>uc.user_tag</code>.
+     * 用户标签表
      */
     public static final UserTag USER_TAG = UserTag.USER_TAG;
 }
