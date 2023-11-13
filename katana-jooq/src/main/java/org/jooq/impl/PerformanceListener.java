@@ -143,7 +143,8 @@ public class PerformanceListener implements DefaultListener {
      * @return
      */
     public static String[] sqlAbbrPatterns(int paramAbbrLimit) {
-        return new String[]{"(\\(([^,]+,){" + paramAbbrLimit + "})([^)]*)(\\))", "$1...$4"};
+        //(?s)表示单行模式，即.匹配任意字符，包括换行符
+        return new String[]{"(?s)(\\(([^,]+,){" + paramAbbrLimit + "})([^)]*)(\\))", "$1...$4"};
     }
 
 
