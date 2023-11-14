@@ -56,8 +56,8 @@ public class UserDaoTest {
     public void test() {
 
         System.out.println(dslContext.render(USER_INFO));
-        dslContext.select().from(USER_INFO)
-                .where(USER_INFO.NAME.like("test")).fetch();
+        System.out.println(dslContext.render(dslContext.select().from(USER_INFO)
+                .where(USER_INFO.NAME.like("test"))));;
     }
 
 }

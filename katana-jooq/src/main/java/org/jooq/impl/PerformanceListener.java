@@ -4,7 +4,10 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.jooq.DSLContext;
 import org.jooq.ExecuteContext;
+import org.jooq.Query;
+import org.jooq.conf.SettingsTools;
 import org.jooq.tools.StopWatch;
 
 import java.util.ArrayList;
@@ -18,66 +21,60 @@ import java.util.stream.Collectors;
  * @author liyifei
  */
 @Slf4j
-@Data
 public class PerformanceListener implements DefaultListener {
-
-    /**
-     * 是否显示执行的SQL
-     */
-    private boolean showSql = true;
-
-    /**
-     * 慢查询阈值，默认1000ms
-     */
-    private long slowQueryThreshold = 1000;
-
-    /**
-     * 是否启用SQL缩略打印
-     */
-    private boolean sqlAbbrEnabled = true;
-
-    /**
-     * SQL长度限制，超过限制的SQL将被截断打印，默认10000
-     */
-    private int sqlAbbrLimit = 10000;
-    /**
-     * IN参数列表长度限制，超过限制将被截断打印，默认1000
-     */
-    private int paramAbbrLimit = 1000;
-
-
-    @Setter(AccessLevel.NONE)
-    private String[] sqlAbbrPatterns = sqlAbbrPatterns(paramAbbrLimit);
-
-    public void setSqlAbbrLimit(int sqlAbbrLimit) {
-        this.sqlAbbrLimit = sqlAbbrLimit;
-        this.sqlAbbrPatterns = sqlAbbrPatterns(paramAbbrLimit);
-    }
-
 
     /**
      * 存储正在执行的SQL列表
      */
     @Setter(AccessLevel.NONE)
-    private final ThreadLocal<List<String>> SQL_QUERIES = ThreadLocal.withInitial(ArrayList::new);
+    private final ThreadLocal<List<Query>> SQL_QUERIES = ThreadLocal.withInitial(ArrayList::new);
     /**
      * SQL执行计时器
      */
     @Setter(AccessLevel.NONE)
     private final ThreadLocal<StopWatch> STOP_WATCH = ThreadLocal.withInitial(StopWatch::new);
 
+    private Properties properties;
+
+    private DSLContext renderContext;
+    private SqlAbbreviator sqlAbbreviator;
+
+    public PerformanceListener() {
+        this(new Properties());
+    }
+
+    public PerformanceListener(Properties properties) {
+        this.properties = properties;
+    }
+
+
     @Override
     public void start(ExecuteContext ctx) {
         //init for every outer call on this thread, not every invocation of this method
         SQL_QUERIES.get();
         STOP_WATCH.get();
+        if (renderContext == null) {//实例共享
+            synchronized (this) {
+                if (renderContext == null) {
+                    renderContext = DSL.using(ctx.dialect(),
+                            SettingsTools.clone(ctx.settings()).withRenderFormatted(false));
+                }
+            }
+        }
+        if (sqlAbbreviator == null) {//实例共享
+            synchronized (this) {
+                if (sqlAbbreviator == null) {
+                    sqlAbbreviator = new SqlAbbreviator(properties.paramAbbrLimit, ctx.dialect(), ctx.settings());
+                }
+            }
+        }
     }
 
     @Override
     public void renderEnd(ExecuteContext ctx) {
         try {
             if (ctx.query() != null) {
-                SQL_QUERIES.get().add(ctx.query().toString());
+                SQL_QUERIES.get().add(ctx.query());
             }
         } catch (Exception e) {
             //ignore
@@ -88,31 +85,44 @@ public class PerformanceListener implements DefaultListener {
     @Override
     public void executeEnd(ExecuteContext ctx) {
         printSql(false);
+        end();
     }
 
 
     @Override
     public void exception(ExecuteContext ctx) {
         printSql(true);
+        end();
     }
 
 
+    private void end() {
+        SQL_QUERIES.remove();
+        STOP_WATCH.remove();
+    }
+
     /**
-     * @param hasError 是否存在异常
+     * 打印SQL
+     *
+     * @param hasError 是否有异常
      */
     private void printSql(boolean hasError) {
         //enable show-sql or exists slow-query
         try {
             long costNanos = STOP_WATCH.get().split();
-            List<String> sqlList = SQL_QUERIES.get();
-            //
-            boolean isSlow = costNanos > TimeUnit.MILLISECONDS.toNanos(slowQueryThreshold);
-            if (showSql || isSlow) {
+            List<Query> queryList = SQL_QUERIES.get();
+            boolean isSlow = costNanos > TimeUnit.MILLISECONDS.toNanos(properties.slowSqlThreshold);
+            if (properties.showSql || isSlow) {
                 String timeCost = StopWatch.format(costNanos);
-                List<String> list = sqlList.stream().map(this::abbrSql).collect(Collectors.toList());
-                int limit = hasError ? sqlList.size() - 1 : sqlList.size();
-                String succeed = list.subList(0, limit).stream().collect(Collectors.joining(";\n--------------------\n"));
-                String fail = list.subList(limit, list.size()).stream().collect(Collectors.joining(";\n--------------------\n"));
+                int limit = hasError ? queryList.size() - 1 : queryList.size();
+                String succeed = queryList.subList(0, limit)
+                        .stream()
+                        .map(this::buildSql)
+                        .collect(Collectors.joining(";\n--------------------\n"));
+                String fail = queryList.subList(limit, queryList.size())
+                        .stream()
+                        .map(this::buildSql)
+                        .collect(Collectors.joining(";\n--------------------\n"));
                 if (!hasError) {//all success
                     if (isSlow) {
                         log.warn("slow sql query by jooq cost {}:\n{}", timeCost, succeed);
@@ -128,43 +138,57 @@ public class PerformanceListener implements DefaultListener {
                 }
             }
         } catch (Exception e) {
-
             //ignore
-        } finally {
-            SQL_QUERIES.remove();
-            STOP_WATCH.remove();
+            e.printStackTrace();
         }
     }
 
-    /**
-     * SQL缩略打印正则表达式
-     *
-     * @param paramAbbrLimit
-     * @return
-     */
-    public static String[] sqlAbbrPatterns(int paramAbbrLimit) {
-        //(?s)表示单行模式，即.匹配任意字符，包括换行符
-        return new String[]{"(?s)(\\(([^,]+,){" + paramAbbrLimit + "})([^)]*)(\\))", "$1...$4"};
-    }
-
 
     /**
-     * SQL缩略打印
+     * 构建SQL
      *
-     * @param sql
+     * @param query
      * @return
      */
-    private String abbrSql(String sql) {
+    private String buildSql(Query query) {
+        String prepared = sqlAbbreviator.abbr(renderContext.render(query), 1);
+        String rendered = renderContext.renderInlined(query);
         //SQL超长时缩略打印
-        if (sqlAbbrEnabled && sql.length() > sqlAbbrLimit) {
-            // 优先缩略参数列表显示
-            sql = sql.replaceAll(sqlAbbrPatterns[0], sqlAbbrPatterns[1]);
+        if (rendered.length() > properties.sqlLengthLimit) {
+            if (properties.paramAbbrLimit > 0) {
+                // 参数缩略
+                rendered = sqlAbbreviator.abbr(rendered);
+            }
             //参数缩略后SQL仍超长，则进行截断
-            if (sql.length() > sqlAbbrLimit) {
-                sql = sql.substring(0, sqlAbbrLimit);
+            if (rendered.length() > properties.sqlLengthLimit) {
+                rendered = rendered.substring(0, properties.sqlLengthLimit) + "...";
             }
         }
-        return sql;
+        return "[prepared]" + prepared + "\n[rendered]" + rendered;
+    }
+
+
+    @Data
+    public static class Properties {
+        /**
+         * 是否显示执行的SQL
+         */
+        private boolean showSql = true;
+
+        /**
+         * 慢查询阈值，默认1000ms
+         */
+        private long slowSqlThreshold = 1000;
+
+        /**
+         * SQL长度限制，超过限制的SQL将被截断打印，默认10000
+         */
+        private int sqlLengthLimit = 1000;
+
+        /**
+         * 参数列表长度限制，超过限制将被缩略打印，默认1000
+         */
+        private int paramAbbrLimit = 10;
     }
 
 }

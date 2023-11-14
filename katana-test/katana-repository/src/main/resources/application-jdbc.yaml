@@ -4,7 +4,7 @@ spring:
       platform: h2
       mode: embedded #never
   jooq:
-    sql-dialect: h2
+    sql-dialect: MYSQL
   datasource:
     url: "jdbc:h2:mem:test"
     username: sa

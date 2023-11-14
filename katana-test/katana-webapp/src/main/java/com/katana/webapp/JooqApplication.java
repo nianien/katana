@@ -18,7 +18,7 @@ public class JooqApplication {
 
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = new SpringApplicationBuilder(JooqApplication.class)
+        new SpringApplicationBuilder(JooqApplication.class)
                 .profiles("jdbc")
                 .child(JooqApplication.class).web(WebApplicationType.SERVLET)
                 .build().run(args);
