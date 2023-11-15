@@ -1,0 +1,417 @@
+{
+  "components": {
+    "schemas": {
+      "UserInfo_response": {
+        "properties": {
+          "id": {
+            "format": "int64",
+            "description": "No comments found.",
+            "type": "number",
+            "example": "0"
+          },
+          "name": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": ""
+          },
+          "phone": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": ""
+          },
+          "email": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": ""
+          },
+          "contact": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": ""
+          },
+          "createTime": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": "yyyy-MM-dd HH:mm:ss"
+          },
+          "updateTime": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": "yyyy-MM-dd HH:mm:ss"
+          },
+          "tenantCode": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": ""
+          },
+          "env": {
+            "format": "string",
+            "description": "No comments found.",
+            "type": "string",
+            "example": ""
+          }
+        }
+      },
+      "string": {
+        "format": "string",
+        "type": "string"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080"
+    }
+  ],
+  "openapi": "3.0.3",
+  "paths": {
+    "/katana-api/users/find/{name}": {
+      "get": {
+        "summary": "查询用户",
+        "deprecated": false,
+        "tags": [
+          "用户管理模块\nCreated on 2022/1/24"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInfo_response"
+                  }
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "[\n  {\n    \"id\": 0,\n    \"name\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"contact\": \"\",\n    \"createTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"updateTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"tenantCode\": \"\",\n    \"env\": \"\"\n  }\n]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-users-find-{name}-GET",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "用户名",
+            "required": true,
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "/katana-api/users/delete/{name}": {
+      "get": {
+        "summary": "用户查询",
+        "deprecated": false,
+        "tags": [
+          "用户管理模块\nCreated on 2022/1/24"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInfo_response"
+                  }
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "[\n  {\n    \"id\": 0,\n    \"name\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"contact\": \"\",\n    \"createTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"updateTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"tenantCode\": \"\",\n    \"env\": \"\"\n  }\n]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-users-delete-{name}-GET",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "用户名",
+            "required": true,
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "/katana-api/": {
+      "get": {
+        "summary": "首页",
+        "deprecated": false,
+        "tags": [
+          "主应用"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-GET",
+        "parameters": []
+      }
+    },
+    "/katana-api/users/insert/{name}/{phone}/{email}": {
+      "get": {
+        "summary": "注册用户",
+        "deprecated": false,
+        "tags": [
+          "用户管理模块\nCreated on 2022/1/24"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInfo_response"
+                  }
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "[\n  {\n    \"id\": 0,\n    \"name\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"contact\": \"\",\n    \"createTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"updateTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"tenantCode\": \"\",\n    \"env\": \"\"\n  }\n]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-users-insert-{name}-{phone}-{email}-GET",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": " 用户名",
+            "required": true,
+            "name": "name"
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "电话",
+            "required": true,
+            "name": "phone"
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "邮箱",
+            "required": true,
+            "name": "email"
+          }
+        ]
+      }
+    },
+    "/katana-api/users/{name}": {
+      "get": {
+        "summary": "查询用户",
+        "deprecated": false,
+        "tags": [
+          "用户管理模块\nCreated on 2022/1/24"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInfo_response"
+                  }
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "[\n  {\n    \"id\": 0,\n    \"name\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"contact\": \"\",\n    \"createTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"updateTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"tenantCode\": \"\",\n    \"env\": \"\"\n  }\n]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-users-{name}-GET",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "用户名",
+            "required": true,
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "/katana-api/users/update/{name}/{phone}/{email}": {
+      "get": {
+        "summary": "修改用户",
+        "deprecated": false,
+        "tags": [
+          "用户管理模块\nCreated on 2022/1/24"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInfo_response"
+                  }
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "[\n  {\n    \"id\": 0,\n    \"name\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"contact\": \"\",\n    \"createTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"updateTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"tenantCode\": \"\",\n    \"env\": \"\"\n  }\n]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-users-update-{name}-{phone}-{email}-GET",
+        "parameters": [
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "用户名",
+            "required": true,
+            "name": "name"
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "No comments found.",
+            "required": true,
+            "name": "phone"
+          },
+          {
+            "schema": {
+              "format": "string",
+              "type": "string"
+            },
+            "in": "path",
+            "description": "No comments found.",
+            "required": true,
+            "name": "email"
+          }
+        ]
+      }
+    },
+    "/katana-api/users/abbr/{limit}": {
+      "get": {
+        "summary": "查询用户数",
+        "deprecated": false,
+        "tags": [
+          "用户管理模块\nCreated on 2022/1/24"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserInfo_response"
+                  }
+                },
+                "examples": {
+                  "json": {
+                    "summary": "test data",
+                    "value": "[\n  {\n    \"id\": 0,\n    \"name\": \"\",\n    \"phone\": \"\",\n    \"email\": \"\",\n    \"contact\": \"\",\n    \"createTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"updateTime\": \"yyyy-MM-dd HH:mm:ss\",\n    \"tenantCode\": \"\",\n    \"env\": \"\"\n  }\n]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "katana-api-users-abbr-{limit}-GET",
+        "parameters": [
+          {
+            "schema": {
+              "format": "int32",
+              "type": "integer"
+            },
+            "in": "path",
+            "description": "用户名",
+            "required": true,
+            "name": "limit"
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "jooq教程",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "主应用",
+      "description": "主应用"
+    },
+    {
+      "name": "用户管理模块\nCreated on 2022/1/24",
+      "description": "用户管理模块\nCreated on 2022/1/24"
+    }
+  ]
+}
