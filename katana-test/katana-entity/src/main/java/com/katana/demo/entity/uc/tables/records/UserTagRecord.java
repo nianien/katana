@@ -290,6 +290,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
         setCreateTime(createTime);
         setModifyTime(modifyTime);
         setEnv(env);
+        resetChangedOnNotNull();
     }
 
     /**
@@ -305,6 +306,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
             setCreateTime(value.getCreateTime());
             setModifyTime(value.getModifyTime());
             setEnv(value.getEnv());
+            resetChangedOnNotNull();
         }
     }
 }

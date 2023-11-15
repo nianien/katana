@@ -1,6 +1,6 @@
 {
-  "serverUrl": "http://localhost:63342/katana-jooq/jooq-test/api/",
-  "pathPrefix": "docs",
+  "serverUrl": "http://localhost:8080",
+  "pathPrefix": "/katana-api",
   "allInOne": true,
   "outPath": "api/docs",
   "style": "xt256",

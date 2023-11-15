@@ -1,4 +1,4 @@
-<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.15.0.xsd">
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.18.0.xsd">
     <generator>
         <generate>
             <!-- Individual flags for each object type -->
@@ -50,24 +50,24 @@
                 <!--将时间&日期类型统一转化成java.util.Date-->
                 <forcedType>
                     <userType>java.util.Date</userType>
-                    <types>TIME</types>
+                    <includeTypes>TIME</includeTypes>
                     <converter>com.katana.jooq.converter.LocalTimeConverter</converter>
                 </forcedType>
                 <forcedType>
                     <userType>java.util.Date</userType>
-                    <types>DATE</types>
+                    <includeTypes>DATE</includeTypes>
                     <converter>com.katana.jooq.converter.LocalDateConverter</converter>
                 </forcedType>
                 <forcedType>
                     <userType>java.util.Date</userType>
-                    <types>DATETIME|TIMESTAMP</types>
+                    <includeTypes>DATETIME|TIMESTAMP</includeTypes>
                     <converter>com.katana.jooq.converter.LocalDateTimeConverter</converter>
                 </forcedType>
 
                 <!--敏感字段加密-->
                 <forcedType>
                     <userType>java.lang.String</userType>
-                    <types>VARCHAR|CHAR</types>
+                    <includeTypes>VARCHAR|CHAR</includeTypes>
                     <expression>.*(phone|email).*</expression>
                     <converter>com.katana.jooq.converter.EncryptConverter</converter>
                 </forcedType>

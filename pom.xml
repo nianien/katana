@@ -13,9 +13,6 @@
         <java.version>17</java.version>
         <springboot.version>3.1.5</springboot.version>
         <cudrania.version>1.2.1-jdk17</cudrania.version>
-        <jooq.version>3.18.0</jooq.version>
-        <jakarta.servlet-api.servlet-api.version>6.0.0</jakarta.servlet-api.servlet-api.version>
-        <validation-api.version>2.0.1.Final</validation-api.version>
     </properties>
 
     <modules>
@@ -37,7 +34,6 @@
                 <artifactId>cudrania</artifactId>
                 <version>${cudrania.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
     <!-- 依赖包 -->
@@ -45,6 +41,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -100,7 +103,7 @@
                 <plugin>
                     <groupId>org.jooq</groupId>
                     <artifactId>jooq-codegen-maven</artifactId>
-                    <version>${jooq.version}</version>
+                    <version>3.18.7</version>
                     <executions>
                         <execution>
                             <goals>
@@ -113,7 +116,7 @@
                         <dependency>
                             <groupId>org.jooq</groupId>
                             <artifactId>jooq-meta-extensions</artifactId>
-                            <version>${jooq.version}</version>
+                            <version>3.18.7</version>
                         </dependency>
                     </dependencies>
                     <configuration>

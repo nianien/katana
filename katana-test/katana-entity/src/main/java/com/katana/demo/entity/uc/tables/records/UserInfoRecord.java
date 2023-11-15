@@ -401,6 +401,7 @@ public class UserInfoRecord extends UpdatableRecordImpl<UserInfoRecord> implemen
         setUpdateTime(updateTime);
         setTenantCode(tenantCode);
         setEnv(env);
+        resetChangedOnNotNull();
     }
 
     /**
@@ -419,6 +420,7 @@ public class UserInfoRecord extends UpdatableRecordImpl<UserInfoRecord> implemen
             setUpdateTime(value.getUpdateTime());
             setTenantCode(value.getTenantCode());
             setEnv(value.getEnv());
+            resetChangedOnNotNull();
         }
     }
 }

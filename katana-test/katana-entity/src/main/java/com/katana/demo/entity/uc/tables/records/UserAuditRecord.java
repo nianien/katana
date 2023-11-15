@@ -327,6 +327,7 @@ public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implem
         setReasonCode(reasonCode);
         setRefuseReason(refuseReason);
         setEnv(env);
+        resetChangedOnNotNull();
     }
 
     /**
@@ -343,6 +344,7 @@ public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implem
             setReasonCode(value.getReasonCode());
             setRefuseReason(value.getRefuseReason());
             setEnv(value.getEnv());
+            resetChangedOnNotNull();
         }
     }
 }
