@@ -1,9 +1,9 @@
 {
-  "serverUrl": "http://localhost:8080",
+  "serverEnv": "http://{{server}}",
   "pathPrefix": "/katana-api",
   "allInOne": true,
-  "outPath": "api/docs",
-  "style": "xt256",
+  "outPath": "src/main/resources/static/docs",
+  "style": "atelier-lakeside-light",
   "projectName": "jooq教程",
   "createDebugPage": true,
   "revisionLogs": [

@@ -15,7 +15,7 @@ api[0].list.push({
 api[0].list[0].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api',
+    url: '/katana-api/',
     desc: '首页',
 });
 api[0].list.push({
@@ -28,37 +28,37 @@ api[0].list.push({
 api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api/users/abbr/{limit}',
+    url: '/katana-api/users/abbr/{limit}',
     desc: '查询用户数',
 });
 api[0].list[1].list.push({
     order: '2',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api/users/find/{name}',
+    url: '/katana-api/users/find/{name}',
     desc: '查询用户',
 });
 api[0].list[1].list.push({
     order: '3',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api/users/{name}',
+    url: '/katana-api/users/{name}',
     desc: '查询用户',
 });
 api[0].list[1].list.push({
     order: '4',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api/users/insert/{name}/{phone}/{email}',
+    url: '/katana-api/users/insert/{name}/{phone}/{email}',
     desc: '注册用户',
 });
 api[0].list[1].list.push({
     order: '5',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api/users/update/{name}/{phone}/{email}',
+    url: '/katana-api/users/update/{name}/{phone}/{email}',
     desc: '修改用户',
 });
 api[0].list[1].list.push({
     order: '6',
     deprecated: 'false',
-    url: 'http://localhost:8080/katana-api/users/delete/{name}',
+    url: '/katana-api/users/delete/{name}',
     desc: '用户查询',
 });
 document.onkeydown = keyDownSearch;
