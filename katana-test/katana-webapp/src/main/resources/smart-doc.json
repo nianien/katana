@@ -1,9 +1,11 @@
 {
   "serverEnv": "http://{{server}}",
   "pathPrefix": "/katana-api",
-  "allInOne": true,
+  "allInOne": false,
   "outPath": "src/main/resources/static/docs",
   "style": "atelier-lakeside-light",
+  "showAuthor": true,
+  "displayActualType": true,
   "projectName": "jooq教程",
   "createDebugPage": true,
   "revisionLogs": [

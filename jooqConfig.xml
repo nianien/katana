@@ -1,5 +1,6 @@
 <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.18.0.xsd">
     <generator>
+        <name>org.jooq.codegen.JavaGenerator</name>
         <generate>
             <!-- Individual flags for each object type -->
             <globalCatalogReferences>true</globalCatalogReferences>
@@ -11,6 +12,7 @@
             <globalQueueReferences>true</globalQueueReferences>
             <globalLinkReferences>true</globalLinkReferences>
             <pojos>true</pojos>
+            <javadoc>true</javadoc>
             <!--<daos>true</daos>-->
             <emptySchemas>false</emptySchemas>
             <!--<springAnnotations>true</springAnnotations>-->

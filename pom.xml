@@ -13,6 +13,7 @@
         <java.version>17</java.version>
         <springboot.version>3.1.5</springboot.version>
         <cudrania.version>1.2.1-jdk17</cudrania.version>
+        <jooq.version>3.18.7</jooq.version>
     </properties>
 
     <modules>
@@ -47,7 +48,7 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.1u2</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -117,6 +118,11 @@
                             <groupId>org.jooq</groupId>
                             <artifactId>jooq-meta-extensions</artifactId>
                             <version>3.18.7</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>io.github.nianien</groupId>
+                            <artifactId>katana-jooq</artifactId>
+                            <version>${revision}</version>
                         </dependency>
                     </dependencies>
                     <configuration>
