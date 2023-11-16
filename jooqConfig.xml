@@ -1,6 +1,6 @@
 <configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.18.0.xsd">
     <generator>
-        <name>org.jooq.codegen.JavaGenerator</name>
+        <name>org.jooq.codegen.JavaGeneratorX</name>
         <generate>
             <!-- Individual flags for each object type -->
             <globalCatalogReferences>true</globalCatalogReferences>
