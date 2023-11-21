@@ -14,7 +14,7 @@ CREATE TABLE `user_info`
     `tenant_code` varchar(16) NOT NULL DEFAULT '' COMMENT '租户编码',
     `env`         varchar(8)  NOT NULL DEFAULT '' COMMENT '环境',
     PRIMARY KEY (`id`)
-)/* ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户信息表'*/;
+);COMMENT ON TABLE `user_info` IS '用户信息表';/* ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户信息表'*/;
 
 CREATE TABLE `user_audit`
 (
@@ -26,7 +26,7 @@ CREATE TABLE `user_audit`
     `refuse_reason` varchar(1024)        DEFAULT NULL COMMENT '拒绝原因',
     `env`           varchar(8)  NOT NULL DEFAULT '' COMMENT '环境标',
     PRIMARY KEY (`userid`)
-); /*ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户审核表'*/
+);COMMENT ON TABLE `user_audit` IS '用户审核表';/*ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户审核表'*/
 
 CREATE TABLE `user_tag`
 (
@@ -37,4 +37,4 @@ CREATE TABLE `user_tag`
     `modify_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `env`         varchar(8)  NOT NULL DEFAULT '' COMMENT '环境标',
     PRIMARY KEY (`id`)
-);/* ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户标签表'*/
+);COMMENT ON TABLE `user_audit` IS '用户标签表';/* ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户标签表'*/

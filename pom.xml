@@ -17,6 +17,7 @@
     </properties>
 
     <modules>
+        <module>katana-jooq-gen</module>
         <module>katana-jooq</module>
         <module>katana-test</module>
         <module>katana-spring</module>
@@ -35,6 +36,28 @@
                 <artifactId>cudrania</artifactId>
                 <version>${cudrania.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta-extensions</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>24.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>annotations</artifactId>
+                <version>3.0.1u2</version>
+                <optional>true</optional>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <!-- 依赖包 -->
@@ -48,8 +71,29 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>annotations</artifactId>
-            <version>3.0.1u2</version>
+            <scope>provided</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -104,7 +148,7 @@
                 <plugin>
                     <groupId>org.jooq</groupId>
                     <artifactId>jooq-codegen-maven</artifactId>
-                    <version>3.18.7</version>
+                    <version>${jooq.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -114,15 +158,15 @@
                         </execution>
                     </executions>
                     <dependencies>
+<!--                        <dependency>-->
+<!--                            <groupId>io.github.nianien</groupId>-->
+<!--                            <artifactId>katana-jooq-gen</artifactId>-->
+<!--                            <version>${revision}</version>-->
+<!--                        </dependency>-->
                         <dependency>
                             <groupId>org.jooq</groupId>
                             <artifactId>jooq-meta-extensions</artifactId>
-                            <version>3.18.7</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>io.github.nianien</groupId>
-                            <artifactId>katana-jooq</artifactId>
-                            <version>${revision}</version>
+                            <version>${jooq.version}</version>
                         </dependency>
                     </dependencies>
                     <configuration>

@@ -41,3 +41,4 @@ CREATE TABLE `user_tag`
     PRIMARY KEY (`id`)
 )/* ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户标签表'*/;
 COMMENT ON TABLE `user_tag` IS '用户标签表';
+

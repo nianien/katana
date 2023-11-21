@@ -55,7 +55,35 @@ public class UserDaoTest {
     @Test
     public void test() {
 
-        System.out.println(dslContext.render(USER_INFO));
+        String sql="CREATE TABLE `account`\n" +
+                "(\n" +
+                "    `id`            bigint(20)   NOT NULL AUTO_INCREMENT COMMENT '<账户ID>',\n" +
+                "    `name`          varchar(16) NOT NULL DEFAULT '' COMMENT '<账户名称>',\n" +
+                "    `phone`         varchar(13) NOT NULL DEFAULT '' COMMENT '<电话>',\n" +
+                "    `email`         varchar(16) NOT NULL DEFAULT '' COMMENT '<邮箱>',\n" +
+                "    `create_time`   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
+                "    `update_time`   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',\n" +
+                "    `tenant_code`   varchar(8)   NOT NULL DEFAULT '' COMMENT '<租户编码>',\n" +
+                "    `env`       varchar(8) NOT NULL DEFAULT '' COMMENT '<环境>',\n" +
+                "    PRIMARY KEY (`id`)\n" +
+                ")ENGINE=INNODB DEFAULT CHARSET=UTF8 COMMENT='用户信息表';";
+        DefaultConfiguration h2Config = new DefaultConfiguration();
+        h2Config.setSQLDialect(SQLDialect.H2);
+        h2Config.settings()
+                .withRenderSchema(false)
+                .withRenderNameCase(RenderNameCase.AS_IS)
+                .withRenderQuotedNames(RenderQuotedNames.ALWAYS);
+        DSLContext h2Context = DSL.using(h2Config);
+
+        DefaultConfiguration mySqlconfig = new DefaultConfiguration();
+        mySqlconfig.setSQLDialect(SQLDialect.MYSQL);
+        mySqlconfig.settings()
+                .withRenderSchema(false)
+                .withRenderNameCase(RenderNameCase.AS_IS)
+                .withRenderQuotedNames(RenderQuotedNames.ALWAYS);
+        DSLContext mySQLContext = DSL.using(mySqlconfig);
+
+        System.out.println(h2Context.render(mySQLContext.parser().parse(sql)));
     }
 
 }

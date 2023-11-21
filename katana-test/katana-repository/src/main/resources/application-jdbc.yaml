@@ -6,7 +6,7 @@ spring:
   jooq:
     sql-dialect: MYSQL
   datasource:
-    url: "jdbc:h2:mem:test"
+    url: "jdbc:h2:mem:test;mode=MySQL;"
     username: sa
     password: sa
   h2:

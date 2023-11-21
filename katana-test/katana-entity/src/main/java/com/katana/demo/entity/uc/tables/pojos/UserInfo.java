@@ -16,50 +16,14 @@ public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-
-    /**
-     * 账户ID
-     */
     private Long id;
-
-    /**
-     * 账户名称
-     */
     private String name;
-
-    /**
-     * 电话
-     */
     private String phone;
-
-    /**
-     * 邮箱
-     */
     private String email;
-
-    /**
-     * 联系人
-     */
     private String contact;
-
-    /**
-     * 创建时间
-     */
     private Date createTime;
-
-    /**
-     * 更新时间
-     */
     private Date updateTime;
-
-    /**
-     * 租户编码
-     */
     private String tenantCode;
-
-    /**
-     * 环境
-     */
     private String env;
 
     public UserInfo() {}
