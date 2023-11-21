@@ -16,5 +16,8 @@
       "author": "lining",
       "remarks": "测试版"
     }
+  ],
+  "ignoreRequestParams":[
+    "org.springframework.ui.ModelMap"
   ]
 }
