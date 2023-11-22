@@ -15,12 +15,40 @@ public class UserAudit implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+    /**
+     * 用户ID
+     */
     private Long userid;
+
+    /**
+     * 用户名
+     */
     private String name;
+
+    /**
+     * 审核状态，0表示审核通过，1表示审核中，2表示审核拒绝，5待提交至审核(搁置)
+     */
     private Integer auditState;
+
+    /**
+     * 审核员id
+     */
     private Long auditorId;
+
+    /**
+     * 拒绝理由
+     */
     private String reasonCode;
+
+    /**
+     * 拒绝原因
+     */
     private String refuseReason;
+
+    /**
+     * 环境标
+     */
     private String env;
 
     public UserAudit() {}

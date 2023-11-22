@@ -14,9 +14,8 @@ import java.util.stream.LongStream;
 /**
  * 用户管理模块
  *
- * Created on 2022/1/24
- *
- * @author liyifei
+ * @author liyifei Created on 2022/1/24
+ * @apiNote 用户管理模块, 包括不限于用户查询、用户注册、用户修改、用户删除等功能
  */
 @RestController
 @RequestMapping("users")

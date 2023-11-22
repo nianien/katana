@@ -16,11 +16,35 @@ public class UserTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
+    /**
+     * 主键
+     */
     private Long id;
+
+    /**
+     * 用户id
+     */
     private Long userid;
+
+    /**
+     * 账户标签
+     */
     private String tag;
+
+    /**
+     * 创建时间
+     */
     private Date createTime;
+
+    /**
+     * 修改时间
+     */
     private Date modifyTime;
+
+    /**
+     * 环境标
+     */
     private String env;
 
     public UserTag() {}

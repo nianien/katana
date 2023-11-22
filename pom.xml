@@ -158,11 +158,11 @@
                         </execution>
                     </executions>
                     <dependencies>
-<!--                        <dependency>-->
-<!--                            <groupId>io.github.nianien</groupId>-->
-<!--                            <artifactId>katana-jooq-gen</artifactId>-->
-<!--                            <version>${revision}</version>-->
-<!--                        </dependency>-->
+                        <dependency>
+                            <groupId>io.github.nianien</groupId>
+                            <artifactId>katana-jooq-gen</artifactId>
+                            <version>${revision}</version>
+                        </dependency>
                         <dependency>
                             <groupId>org.jooq</groupId>
                             <artifactId>jooq-meta-extensions</artifactId>
