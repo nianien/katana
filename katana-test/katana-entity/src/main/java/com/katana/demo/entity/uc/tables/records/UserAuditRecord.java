@@ -16,7 +16,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 /**
  * 用户审核表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class UserAuditRecord extends UpdatableRecordImpl<UserAuditRecord> implements Record7<Long, String, Integer, Long, String, String, String> {
 
     private static final long serialVersionUID = 1L;

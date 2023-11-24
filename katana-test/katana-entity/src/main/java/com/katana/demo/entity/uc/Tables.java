@@ -12,7 +12,7 @@ import com.katana.demo.entity.uc.tables.UserTag;
 /**
  * Convenience access to all tables in uc.
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
 
     /**

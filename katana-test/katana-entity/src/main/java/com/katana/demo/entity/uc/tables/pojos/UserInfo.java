@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * 用户信息表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class UserInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

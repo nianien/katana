@@ -34,7 +34,7 @@ import org.jooq.impl.TableImpl;
 /**
  * 用户标签表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class UserTag extends TableImpl<UserTagRecord> {
 
     private static final long serialVersionUID = 1L;

@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 /**
  * 用户信息表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class UserInfoRecord extends UpdatableRecordImpl<UserInfoRecord> implements Record9<Long, String, String, String, String, Date, Date, String, String> {
 
     private static final long serialVersionUID = 1L;

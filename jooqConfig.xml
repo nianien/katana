@@ -33,10 +33,16 @@
                     <types>TINYINT|SMALLINT</types>
                 </forcedType>
                 <forcedType>
+                    <!--兼容BIGINT UNSIGNED类型-->
+                    <name>BIGINT</name>
+                    <types>DECFLOAT</types>
+                    <expression>.*id</expression>
+                </forcedType>
+                <forcedType>
                     <!--将long型表示时间转化成java.util.Date-->
                     <userType>java.util.Date</userType>
                     <types>BIGINT</types>
-                    <expression>.*time</expression>
+                    <includeExpression>.*time</includeExpression>
                     <!-- <lambdaConverter>
                          &lt;!&ndash;user-type to db-type&ndash;&gt;
                          <from>Date::new</from>
@@ -70,7 +76,7 @@
                 <forcedType>
                     <userType>java.lang.String</userType>
                     <includeTypes>VARCHAR|CHAR</includeTypes>
-                    <expression>.*(phone|email).*</expression>
+                    <includeExpression>.*(phone|email).*</includeExpression>
                     <converter>com.katana.jooq.converter.EncryptConverter</converter>
                 </forcedType>
             </forcedTypes>

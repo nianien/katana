@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 /**
  * 用户标签表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements Record6<Long, Long, String, Date, Date, String> {
 
     private static final long serialVersionUID = 1L;
