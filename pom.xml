@@ -7,21 +7,223 @@
     <packaging>pom</packaging>
     <version>${revision}</version>
 
+    <name>katana</name>
+    <description>supporting tools for various frameworks</description>
+    <url>https://github.com/nianien/katana</url>
+    <modules>
+        <module>katana-jooq-gen</module>
+        <module>katana-jooq</module>
+        <module>katana-spring</module>
+    </modules>
     <properties>
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>1.0.0</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <springboot.version>3.1.5</springboot.version>
         <cudrania.version>1.2.3</cudrania.version>
         <jooq.version>3.18.7</jooq.version>
     </properties>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>nianien</id>
+            <name>nianien</name>
+            <email>nianien@126.com</email>
+            <roles>
+                <role>Project Manager</role>
+                <role>Architect</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+    <scm>
+        <connection>https://github.com/nianien/katana.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:nianien/katana.git</developerConnection>
+        <url>https://github.com/nianien/katana</url>
+    </scm>
 
-    <modules>
-        <module>katana-jooq-gen</module>
-        <module>katana-jooq</module>
-        <module>katana-test</module>
-        <module>katana-spring</module>
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                    <configuration>
+                        <!-- <updatePomFile>true</updatePomFile>-->
+                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten.clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- 配置当前项目的jdk版本信息 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.5.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <configuration>
+                                <doclint>none</doclint>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jooq</groupId>
+                    <artifactId>jooq-codegen-maven</artifactId>
+                    <version>${jooq.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>io.github.nianien</groupId>
+                            <artifactId>katana-jooq-gen</artifactId>
+                            <version>${revision}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.jooq</groupId>
+                            <artifactId>jooq-meta-extensions</artifactId>
+                            <version>${jooq.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configurationFile>../../jooqConfig.xml</configurationFile>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <modules>
+                <module>katana-test</module>
+            </modules>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.13</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -96,86 +298,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>flatten-maven-plugin</artifactId>
-                    <version>1.5.0</version>
-                    <configuration>
-                        <!-- <updatePomFile>true</updatePomFile>-->
-                        <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>flatten</id>
-                            <phase>process-resources</phase>
-                            <goals>
-                                <goal>flatten</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>flatten.clean</id>
-                            <phase>clean</phase>
-                            <goals>
-                                <goal>clean</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <!-- 配置当前项目的jdk版本信息 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
-                    <configuration>
-                        <source>${java.version}</source>
-                        <target>${java.version}</target>
-                        <encoding>UTF-8</encoding>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.jooq</groupId>
-                    <artifactId>jooq-codegen-maven</artifactId>
-                    <version>${jooq.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                            <phase>package</phase>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>io.github.nianien</groupId>
-                            <artifactId>katana-jooq-gen</artifactId>
-                            <version>${revision}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.jooq</groupId>
-                            <artifactId>jooq-meta-extensions</artifactId>
-                            <version>${jooq.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <configurationFile>../../jooqConfig.xml</configurationFile>
-                    </configuration>
-                </plugin>
 
-            </plugins>
-        </pluginManagement>
-    </build>
 
 </project>
