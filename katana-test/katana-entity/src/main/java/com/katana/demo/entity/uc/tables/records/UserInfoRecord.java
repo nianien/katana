@@ -108,14 +108,14 @@ public class UserInfoRecord extends UpdatableRecordImpl<UserInfoRecord> implemen
     }
 
     /**
-     * Setter for <code>uc.user_info.update_time</code>. 修改时间
+     * Setter for <code>uc.user_info.update_time</code>. 更新时间
      */
     public void setUpdateTime(Date value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>uc.user_info.update_time</code>. 修改时间
+     * Getter for <code>uc.user_info.update_time</code>. 更新时间
      */
     public Date getUpdateTime() {
         return (Date) get(6);

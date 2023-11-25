@@ -33,8 +33,8 @@ CREATE TABLE `user_tag`
     `id`          bigint   unsigned   NOT NULL AUTO_INCREMENT COMMENT '主键',
     `userid`      bigint      NOT NULL COMMENT '用户id',
     `tag`         varchar(64) NOT NULL DEFAULT '0' COMMENT '账户标签',
-    `create_time` timestamp   NOT NULL DEFAULT '2010-01-01 00:00:00' COMMENT '创建时间',
-    `modify_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    `create_time` bigint   unsigned   NOT NULL COMMENT '创建时间',
+    `update_time` bigint   unsigned   NOT NULL COMMENT '修改时间',
     `env`         varchar(8)  NOT NULL DEFAULT '' COMMENT '环境标',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用户标签表';

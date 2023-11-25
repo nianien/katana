@@ -75,9 +75,7 @@ public class UserTag extends TableImpl<UserTagRecord> {
     /**
      * The column <code>uc.user_tag.update_time</code>. 修改时间
      */
-    public final TableField<UserTagRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), org.jooq.impl.DefaultDataType.getDefaultDataType("\"uc\".\"user_tag_update_time\"").nullable(false), this, "修改时间", org.jooq.Converter.ofNullable(
-                            Object.class, Date.class,
-                            d->new Date(Number.class.cast(d).longValue()), Date::getTime));
+    public final TableField<UserTagRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.BIGINT.nullable(false), this, "修改时间", Converter.ofNullable(Long.class, Date.class, Date::new, Date::getTime));
 
     /**
      * The column <code>uc.user_tag.env</code>. 环境标

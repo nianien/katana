@@ -8,6 +8,7 @@ import com.katana.demo.entity.uc.Keys;
 import com.katana.demo.entity.uc.Uc;
 import com.katana.demo.entity.uc.tables.records.UserInfoRecord;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -80,14 +81,12 @@ public class UserInfo extends TableImpl<UserInfoRecord> {
     /**
      * The column <code>uc.user_info.create_time</code>. 创建时间
      */
-    public final TableField<UserInfoRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.BIGINT.nullable(false), this, "创建时间", Converter.ofNullable(Long.class, Date.class, Date::new, Date::getTime));
+    public final TableField<UserInfoRecord, Date> CREATE_TIME = createField(DSL.name("create_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "创建时间", Converter.ofNullable(LocalDateTime.class, Date.class, local->Date.from(local.atZone(java.time.ZoneId.systemDefault()).toInstant()), date->LocalDateTime.ofInstant(date.toInstant(), java.time.ZoneId.systemDefault())));
 
     /**
-     * The column <code>uc.user_info.update_time</code>. 修改时间
+     * The column <code>uc.user_info.update_time</code>. 更新时间
      */
-    public final TableField<UserInfoRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), org.jooq.impl.DefaultDataType.getDefaultDataType("\"uc\".\"user_info_update_time\"").nullable(false), this, "修改时间", org.jooq.Converter.ofNullable(
-                            Object.class, Date.class,
-                            d->new Date(Number.class.cast(d).longValue()), Date::getTime));
+    public final TableField<UserInfoRecord, Date> UPDATE_TIME = createField(DSL.name("update_time"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "更新时间", Converter.ofNullable(LocalDateTime.class, Date.class, local->Date.from(local.atZone(java.time.ZoneId.systemDefault()).toInstant()), date->LocalDateTime.ofInstant(date.toInstant(), java.time.ZoneId.systemDefault())));
 
     /**
      * The column <code>uc.user_info.tenant_code</code>. 租户编码

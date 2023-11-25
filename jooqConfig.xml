@@ -37,13 +37,13 @@
                     <userType>java.util.Date</userType>
                     <types>BIGINT</types>
                     <expression>.*time</expression>
-                     <lambdaConverter>
-                         <!--user-type to db-type-->
-                         <from>Date::new</from>
-                         <!--user-type to db-type-->
-                         <to>Date::getTime</to>
-                         <nullable>true</nullable>
-                     </lambdaConverter>
+                    <lambdaConverter>
+                        <!--user-type to db-type-->
+                        <from>Date::new</from>
+                        <!--user-type to db-type-->
+                        <to>Date::getTime</to>
+                        <nullable>true</nullable>
+                    </lambdaConverter>
                     <!--<converter>
                         org.jooq.Converter.ofNullable(
                         Long.class, Date.class,
@@ -54,17 +54,46 @@
                 <forcedType>
                     <userType>java.util.Date</userType>
                     <includeTypes>TIME</includeTypes>
-                    <converter>com.katana.jooq.converter.LocalTimeConverter</converter>
+                    <!--<converter>com.katana.jooq.converter.LocalTimeConverter</converter>-->
+                    <lambdaConverter>
+                        <!--user-type to db-type-->
+                        <from>local->Date.from(LocalDateTime.of(LocalDate.now(),
+                            local).atZone(java.time.ZoneId.systemDefault()).toInstant())
+                        </from>
+                        <!--user-type to db-type-->
+                        <to>date->LocalDateTime.ofInstant(date.toInstant(),
+                            java.time.ZoneId.systemDefault()).toLocalTime()
+                        </to>
+                        <nullable>true</nullable>
+                    </lambdaConverter>
                 </forcedType>
                 <forcedType>
                     <userType>java.util.Date</userType>
                     <includeTypes>DATE</includeTypes>
-                    <converter>com.katana.jooq.converter.LocalDateConverter</converter>
+                    <!--<converter>com.katana.jooq.converter.LocalDateConverter</converter>-->
+                    <lambdaConverter>
+                        <!--user-type to db-type-->
+                        <from>
+                            local->Date.from(local.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant())
+                        </from>
+                        <!--user-type to db-type-->
+                        <to>date->LocalDateTime.ofInstant(date.toInstant(),
+                            java.time.ZoneId.systemDefault()).toLocalDate()
+                        </to>
+                        <nullable>true</nullable>
+                    </lambdaConverter>
                 </forcedType>
                 <forcedType>
                     <userType>java.util.Date</userType>
                     <includeTypes>DATETIME|TIMESTAMP</includeTypes>
-                    <converter>com.katana.jooq.converter.LocalDateTimeConverter</converter>
+                    <!--<converter>com.katana.jooq.converter.LocalDateTimeConverter</converter>-->
+                    <lambdaConverter>
+                        <!--user-type to db-type-->
+                        <from>local->Date.from(local.atZone(java.time.ZoneId.systemDefault()).toInstant())</from>
+                        <!--user-type to db-type-->
+                        <to>date->LocalDateTime.ofInstant(date.toInstant(), java.time.ZoneId.systemDefault())</to>
+                        <nullable>true</nullable>
+                    </lambdaConverter>
                 </forcedType>
 
                 <!--敏感字段加密-->
@@ -85,7 +114,7 @@
             <properties>
                 <property>
                     <key>scripts</key>
-                    <value>**/h2/*.sql</value>
+                    <value>**/sql/*.sql</value>
                 </property>
                 <property>
                     <key>sort</key>

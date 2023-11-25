@@ -48,7 +48,7 @@ public class UserInfo implements Serializable {
     private Date createTime;
 
     /**
-     * 修改时间
+     * 更新时间
      */
     private Date updateTime;
 
@@ -183,14 +183,14 @@ public class UserInfo implements Serializable {
     }
 
     /**
-     * Getter for <code>uc.user_info.update_time</code>. 修改时间
+     * Getter for <code>uc.user_info.update_time</code>. 更新时间
      */
     public Date getUpdateTime() {
         return this.updateTime;
     }
 
     /**
-     * Setter for <code>uc.user_info.update_time</code>. 修改时间
+     * Setter for <code>uc.user_info.update_time</code>. 更新时间
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
