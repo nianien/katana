@@ -18,7 +18,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 /**
  * 用户标签表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements Record6<Long, Long, String, Date, Date, String> {
 
     private static final long serialVersionUID = 1L;
@@ -80,16 +80,16 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
     }
 
     /**
-     * Setter for <code>uc.user_tag.modify_time</code>. 修改时间
+     * Setter for <code>uc.user_tag.update_time</code>. 修改时间
      */
-    public void setModifyTime(Date value) {
+    public void setUpdateTime(Date value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>uc.user_tag.modify_time</code>. 修改时间
+     * Getter for <code>uc.user_tag.update_time</code>. 修改时间
      */
-    public Date getModifyTime() {
+    public Date getUpdateTime() {
         return (Date) get(4);
     }
 
@@ -152,7 +152,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
 
     @Override
     public Field<Date> field5() {
-        return UserTag.USER_TAG.MODIFY_TIME;
+        return UserTag.USER_TAG.UPDATE_TIME;
     }
 
     @Override
@@ -182,7 +182,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
 
     @Override
     public Date component5() {
-        return getModifyTime();
+        return getUpdateTime();
     }
 
     @Override
@@ -212,7 +212,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
 
     @Override
     public Date value5() {
-        return getModifyTime();
+        return getUpdateTime();
     }
 
     @Override
@@ -246,7 +246,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
 
     @Override
     public UserTagRecord value5(Date value) {
-        setModifyTime(value);
+        setUpdateTime(value);
         return this;
     }
 
@@ -281,14 +281,14 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
     /**
      * Create a detached, initialised UserTagRecord
      */
-    public UserTagRecord(Long id, Long userid, String tag, Date createTime, Date modifyTime, String env) {
+    public UserTagRecord(Long id, Long userid, String tag, Date createTime, Date updateTime, String env) {
         super(UserTag.USER_TAG);
 
         setId(id);
         setUserid(userid);
         setTag(tag);
         setCreateTime(createTime);
-        setModifyTime(modifyTime);
+        setUpdateTime(updateTime);
         setEnv(env);
         resetChangedOnNotNull();
     }
@@ -304,7 +304,7 @@ public class UserTagRecord extends UpdatableRecordImpl<UserTagRecord> implements
             setUserid(value.getUserid());
             setTag(value.getTag());
             setCreateTime(value.getCreateTime());
-            setModifyTime(value.getModifyTime());
+            setUpdateTime(value.getUpdateTime());
             setEnv(value.getEnv());
             resetChangedOnNotNull();
         }

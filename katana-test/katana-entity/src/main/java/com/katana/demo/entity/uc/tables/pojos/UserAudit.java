@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 用户审核表
  */
-@SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
+@SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAudit implements Serializable {
 
     private static final long serialVersionUID = 1L;
