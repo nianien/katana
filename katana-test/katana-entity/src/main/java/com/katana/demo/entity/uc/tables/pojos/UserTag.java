@@ -40,7 +40,7 @@ public class UserTag implements Serializable {
     /**
      * 修改时间
      */
-    private Date modifyTime;
+    private Date updateTime;
 
     /**
      * 环境标
@@ -54,7 +54,7 @@ public class UserTag implements Serializable {
         this.userid = value.userid;
         this.tag = value.tag;
         this.createTime = value.createTime;
-        this.modifyTime = value.modifyTime;
+        this.updateTime = value.updateTime;
         this.env = value.env;
     }
 
@@ -63,14 +63,14 @@ public class UserTag implements Serializable {
         Long userid,
         String tag,
         Date createTime,
-        Date modifyTime,
+        Date updateTime,
         String env
     ) {
         this.id = id;
         this.userid = userid;
         this.tag = tag;
         this.createTime = createTime;
-        this.modifyTime = modifyTime;
+        this.updateTime = updateTime;
         this.env = env;
     }
 
@@ -131,17 +131,17 @@ public class UserTag implements Serializable {
     }
 
     /**
-     * Getter for <code>uc.user_tag.modify_time</code>. 修改时间
+     * Getter for <code>uc.user_tag.update_time</code>. 修改时间
      */
-    public Date getModifyTime() {
-        return this.modifyTime;
+    public Date getUpdateTime() {
+        return this.updateTime;
     }
 
     /**
-     * Setter for <code>uc.user_tag.modify_time</code>. 修改时间
+     * Setter for <code>uc.user_tag.update_time</code>. 修改时间
      */
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     /**
@@ -191,11 +191,11 @@ public class UserTag implements Serializable {
         }
         else if (!this.createTime.equals(other.createTime))
             return false;
-        if (this.modifyTime == null) {
-            if (other.modifyTime != null)
+        if (this.updateTime == null) {
+            if (other.updateTime != null)
                 return false;
         }
-        else if (!this.modifyTime.equals(other.modifyTime))
+        else if (!this.updateTime.equals(other.updateTime))
             return false;
         if (this.env == null) {
             if (other.env != null)
@@ -214,7 +214,7 @@ public class UserTag implements Serializable {
         result = prime * result + ((this.userid == null) ? 0 : this.userid.hashCode());
         result = prime * result + ((this.tag == null) ? 0 : this.tag.hashCode());
         result = prime * result + ((this.createTime == null) ? 0 : this.createTime.hashCode());
-        result = prime * result + ((this.modifyTime == null) ? 0 : this.modifyTime.hashCode());
+        result = prime * result + ((this.updateTime == null) ? 0 : this.updateTime.hashCode());
         result = prime * result + ((this.env == null) ? 0 : this.env.hashCode());
         return result;
     }
@@ -227,7 +227,7 @@ public class UserTag implements Serializable {
         sb.append(", ").append(userid);
         sb.append(", ").append(tag);
         sb.append(", ").append(createTime);
-        sb.append(", ").append(modifyTime);
+        sb.append(", ").append(updateTime);
         sb.append(", ").append(env);
 
         sb.append(")");

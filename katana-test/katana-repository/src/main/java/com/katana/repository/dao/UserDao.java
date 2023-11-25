@@ -7,6 +7,7 @@ import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.katana.demo.entity.uc.Tables.*;
@@ -66,7 +67,8 @@ public class UserDao {
             } else {
                 record.setPhone(email);
             }
-
+            record.setCreateTime(new Date());
+            record.setUpdateTime(new Date());
             records[i] = record;
         }
         dslContext.batchInsert(records).execute();
@@ -76,11 +78,15 @@ public class UserDao {
         record.setPhone(phone);
         record.setEmail(email);
         record.setTenantCode("test");
+        record.setCreateTime(new Date());
+        record.setUpdateTime(new Date());
         UserInfoRecord record2 = new UserInfoRecord();
         record2.setName(name);
         record2.setPhone(phone);
         record2.setEmail(email);
         record2.setTenantCode("test2");
+        record2.setCreateTime(new Date());
+        record2.setUpdateTime(new Date());
         dslContext.insertInto(USER_INFO).set(record).newRecord().set(record2).execute();
         //id, name, phone, email, create_time, update_time, tenant_code, env
         Field[] fields = new Field[]{USER_INFO.NAME, USER_INFO.PHONE, USER_INFO.EMAIL, USER_INFO.CREATE_TIME, USER_INFO.UPDATE_TIME, USER_INFO.TENANT_CODE, USER_INFO.ENV};
