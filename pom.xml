@@ -11,12 +11,11 @@
     <description>supporting tools for various frameworks</description>
     <url>https://github.com/nianien/katana</url>
     <modules>
-        <module>katana-jooq-gen</module>
         <module>katana-jooq</module>
         <module>katana-spring</module>
     </modules>
     <properties>
-        <revision>1.0.0</revision>
+        <revision>1.0.1</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <springboot.version>3.1.5</springboot.version>
@@ -60,6 +59,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -163,8 +166,8 @@
                     <dependencies>
                         <dependency>
                             <groupId>io.github.nianien</groupId>
-                            <artifactId>katana-jooq-gen</artifactId>
-                            <version>${revision}</version>
+                            <artifactId>jooq-gen</artifactId>
+                            <version>${jooq.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.jooq</groupId>
@@ -248,18 +251,6 @@
                 <artifactId>jooq-meta-extensions</artifactId>
                 <version>${jooq.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.jetbrains</groupId>
-                <artifactId>annotations</artifactId>
-                <version>24.0.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>annotations</artifactId>
-                <version>3.0.1u2</version>
-                <optional>true</optional>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
     <!-- 依赖包 -->
@@ -267,18 +258,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>

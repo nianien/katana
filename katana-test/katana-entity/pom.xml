@@ -21,7 +21,7 @@
         <dependency>
             <groupId>io.github.nianien</groupId>
             <artifactId>katana-jooq</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
 

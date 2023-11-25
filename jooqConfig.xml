@@ -37,17 +37,18 @@
                     <userType>java.util.Date</userType>
                     <types>BIGINT</types>
                     <expression>.*time</expression>
-                    <!-- <lambdaConverter>
-                         &lt;!&ndash;user-type to db-type&ndash;&gt;
+                     <lambdaConverter>
+                         <!--user-type to db-type-->
                          <from>Date::new</from>
-                         &lt;!&ndash;user-type to db-type&ndash;&gt;
+                         <!--user-type to db-type-->
                          <to>Date::getTime</to>
-                     </lambdaConverter>-->
-                    <converter>
+                         <nullable>true</nullable>
+                     </lambdaConverter>
+                    <!--<converter>
                         org.jooq.Converter.ofNullable(
                         Long.class, Date.class,
                         Date::new, Date::getTime)
-                    </converter>
+                    </converter>-->
                 </forcedType>
                 <!--将时间&日期类型统一转化成java.util.Date-->
                 <forcedType>
