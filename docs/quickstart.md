@@ -55,7 +55,7 @@ spring:
 
 <font color=red>***基于H2的sql文件生成代码，不依赖数据库链接***</font>
 
-### 2.1 配置 [jooqConfig.xml](../jooqConfig.xml)
+### 2.1 配置 [jooqConfig.xml](../katana-test/jooqConfig.xml)
 
 ```xml
 

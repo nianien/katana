@@ -54,46 +54,46 @@
                 <forcedType>
                     <userType>java.util.Date</userType>
                     <includeTypes>TIME</includeTypes>
-                    <!--<converter>com.katana.jooq.converter.LocalTimeConverter</converter>-->
-                    <lambdaConverter>
-                        <!--user-type to db-type-->
+                    <converter>com.katana.jooq.converter.LocalTimeConverter</converter>
+                    <!--<lambdaConverter>
+                        &lt;!&ndash;user-type to db-type&ndash;&gt;
                         <from>local->Date.from(LocalDateTime.of(LocalDate.now(),
                             local).atZone(java.time.ZoneId.systemDefault()).toInstant())
                         </from>
-                        <!--user-type to db-type-->
+                        &lt;!&ndash;user-type to db-type&ndash;&gt;
                         <to>date->LocalDateTime.ofInstant(date.toInstant(),
                             java.time.ZoneId.systemDefault()).toLocalTime()
                         </to>
                         <nullable>true</nullable>
-                    </lambdaConverter>
+                    </lambdaConverter>-->
                 </forcedType>
                 <forcedType>
                     <userType>java.util.Date</userType>
                     <includeTypes>DATE</includeTypes>
-                    <!--<converter>com.katana.jooq.converter.LocalDateConverter</converter>-->
-                    <lambdaConverter>
-                        <!--user-type to db-type-->
+                    <converter>com.katana.jooq.converter.LocalDateConverter</converter>
+                    <!--<lambdaConverter>
+                        &lt;!&ndash;user-type to db-type&ndash;&gt;
                         <from>
                             local->Date.from(local.atStartOfDay().atZone(java.time.ZoneId.systemDefault()).toInstant())
                         </from>
-                        <!--user-type to db-type-->
+                        &lt;!&ndash;user-type to db-type&ndash;&gt;
                         <to>date->LocalDateTime.ofInstant(date.toInstant(),
                             java.time.ZoneId.systemDefault()).toLocalDate()
                         </to>
                         <nullable>true</nullable>
-                    </lambdaConverter>
+                    </lambdaConverter>-->
                 </forcedType>
                 <forcedType>
                     <userType>java.util.Date</userType>
                     <includeTypes>DATETIME|TIMESTAMP</includeTypes>
-                    <!--<converter>com.katana.jooq.converter.LocalDateTimeConverter</converter>-->
-                    <lambdaConverter>
-                        <!--user-type to db-type-->
+                    <converter>com.katana.jooq.converter.LocalDateTimeConverter</converter>
+                    <!--<lambdaConverter>
+                        &lt;!&ndash;user-type to db-type&ndash;&gt;
                         <from>local->Date.from(local.atZone(java.time.ZoneId.systemDefault()).toInstant())</from>
-                        <!--user-type to db-type-->
+                        &lt;!&ndash;user-type to db-type&ndash;&gt;
                         <to>date->LocalDateTime.ofInstant(date.toInstant(), java.time.ZoneId.systemDefault())</to>
                         <nullable>true</nullable>
-                    </lambdaConverter>
+                    </lambdaConverter>-->
                 </forcedType>
 
                 <!--敏感字段加密-->
