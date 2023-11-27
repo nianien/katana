@@ -151,35 +151,6 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.jooq</groupId>
-                    <artifactId>jooq-codegen-maven</artifactId>
-                    <version>${jooq.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                            <phase>package</phase>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>io.github.nianien</groupId>
-                            <artifactId>jooq-gen</artifactId>
-                            <version>${jooq.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.jooq</groupId>
-                            <artifactId>jooq-meta-extensions</artifactId>
-                            <version>${jooq.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <configurationFile>../../jooqConfig.xml</configurationFile>
-                    </configuration>
-                </plugin>
-
             </plugins>
         </pluginManagement>
     </build>

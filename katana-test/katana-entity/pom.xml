@@ -25,13 +25,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jooq</groupId>
-                <artifactId>jooq-codegen-maven</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

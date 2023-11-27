@@ -18,6 +18,58 @@
         <module>katana-test-plugin1</module>
         <module>katana-test-plugin2</module>
     </modules>
-
-
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jooq</groupId>
+                    <artifactId>jooq-codegen-maven</artifactId>
+                    <version>${jooq.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <!--代码生成增强-->
+                            <groupId>io.github.nianien</groupId>
+                            <artifactId>jooq-gen</artifactId>
+                            <version>${jooq.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.jooq</groupId>
+                            <artifactId>jooq-meta-extensions</artifactId>
+                            <version>${jooq.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <configurationFile>../../jooqConfig.xml</configurationFile>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <profiles>
+        <profile>
+            <id>gen</id>
+            <activation>
+                <file>
+                    <!-- jooqConfig文件存在时触发代码生成 -->
+                    <exists>src/main/jooq</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
