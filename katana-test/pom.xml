@@ -59,7 +59,7 @@
             <activation>
                 <file>
                     <!-- jooqConfig文件存在时触发代码生成 -->
-                    <exists>src/main/jooq</exists>
+                    <exists>src/main/sql</exists>
                 </file>
             </activation>
             <build>
