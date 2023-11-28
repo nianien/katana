@@ -66,7 +66,7 @@ spring:
             <property>
                 <key>scripts</key>
                 <!--指定SQL目录-->
-                <value>**/h2/*.sql</value>
+                <value>**/sql/*.sql</value>
             </property>
             ...
         </properties>
@@ -82,31 +82,45 @@ spring:
 ### 2.2 配置maven
 
 ```xml
-
-<plugin>
-    <groupId>org.jooq</groupId>
-    <artifactId>jooq-codegen-maven</artifactId>
-    <version>${jooq.version}</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>generate</goal>
-            </goals>
-            <phase>package</phase>
-        </execution>
-    </executions>
-    <dependencies>
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>jooq-meta-extensions</artifactId>
-            <version>${jooq.version}</version>
-        </dependency>
-    </dependencies>
-    <configuration>
-        <!--jooqConfig.xml相对当前模块的路径-->
-        <configurationFile>../../jooqConfig.xml</configurationFile>
-    </configuration>
-</plugin>
+<profiles>
+    <profile>
+        <id>gen</id>
+        <activation>
+            <file>
+                <!-- jooqConfig文件存在时触发代码生成 -->
+                <exists>src/main/sql</exists>
+            </file>
+        </activation>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.jooq</groupId>
+                    <artifactId>jooq-codegen-maven</artifactId>
+                    <version>${jooq.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                            <phase>package</phase>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.jooq</groupId>
+                            <artifactId>jooq-meta-extensions</artifactId>
+                            <version>${jooq.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <configuration>
+                        <!--jooqConfig.xml相对当前模块的路径-->
+                        <configurationFile>../jooqConfig.xml</configurationFile>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+</profiles>
 ```
 
 ***maven命令***
@@ -127,4 +141,8 @@ logging:
   level:
     root: info
     org.springframework.web: trace
+```
+## 4. SQL关键字引用
+```java
+org.jooq.impl.Identifiers#EnumMap<SQLDialect, char[][][]> QUOTES
 ```
