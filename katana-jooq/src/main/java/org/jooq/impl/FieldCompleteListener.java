@@ -22,7 +22,7 @@ import static org.jooq.impl.DSL.val;
  * @author liyifei
  */
 @Slf4j
-public class FieldCompleteListener implements DefaultVisitListener {
+public class FieldCompleteListener implements VisitListener {
     /**
      * 需要自动补齐的字段
      */

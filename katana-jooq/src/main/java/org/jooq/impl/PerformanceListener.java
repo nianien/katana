@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.ExecuteContext;
+import org.jooq.ExecuteListener;
 import org.jooq.Query;
 import org.jooq.conf.SettingsTools;
 import org.jooq.tools.StopWatch;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
  * @author liyifei
  */
 @Slf4j
-public class PerformanceListener implements DefaultExecuteListener {
+public class PerformanceListener implements ExecuteListener {
 
     /**
      * 存储正在执行的SQL列表
