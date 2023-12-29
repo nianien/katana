@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author liyifei
  */
 @Slf4j
-public class PerformanceListener implements DefaultListener {
+public class PerformanceListener implements DefaultExecuteListener {
 
     /**
      * 存储正在执行的SQL列表

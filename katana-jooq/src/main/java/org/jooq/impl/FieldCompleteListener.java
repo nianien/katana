@@ -22,12 +22,7 @@ import static org.jooq.impl.DSL.val;
  * @author liyifei
  */
 @Slf4j
-public class FieldCompleteListener implements DefaultListener {
-
-    /**
-     * 避免重复处理，使用WeakHashMap,在SQL处理完被移除
-     */
-    private final ThreadLocal<Map<Integer, Boolean>> visitedMap = ThreadLocal.withInitial(HashMap::new);
+public class FieldCompleteListener implements DefaultVisitListener {
     /**
      * 需要自动补齐的字段
      */
@@ -35,7 +30,7 @@ public class FieldCompleteListener implements DefaultListener {
     /**
      * 需要补齐字段的默认值
      */
-    private static final Map<String, ThreadLocal<Param<String>>> DEFAULT_VALUES = new HashMap<>();
+    private static final Map<String, ThreadLocal<Param<String>>> AUTO_VALUES = new HashMap<>();
 
     /**
      * 需要追加的字段和默认值
@@ -47,7 +42,7 @@ public class FieldCompleteListener implements DefaultListener {
             String fieldName = fieldAndDefaultValue[0];
             String defaultValue = fieldAndDefaultValue[1];
             AUTO_FIELDS.put(fieldName, DSL.field(fieldName, String.class));
-            DEFAULT_VALUES.put(fieldName, ThreadLocal.withInitial(() -> val(defaultValue)));
+            AUTO_VALUES.put(fieldName, ThreadLocal.withInitial(() -> val(defaultValue)));
         }
     }
 
@@ -58,15 +53,7 @@ public class FieldCompleteListener implements DefaultListener {
                 || query instanceof UpdateQueryImpl
                 || query instanceof DeleteQueryImpl
                 || query instanceof SelectQueryImpl) {
-            try {
-                //在打印日志时会重复访问VisitContext,避免重复改写SQL
-                //同一个线程不会有并发问题, 同一个query只会被改写一次
-                if (visitedMap.get().putIfAbsent(System.identityHashCode(query), true) == null) {
-                    rewriteQuery(query, AUTO_FIELDS);
-                }
-            } catch (Exception e) {
-                //ignore
-            }
+            rewriteQuery(query, AUTO_FIELDS);
         }
     }
 
@@ -160,7 +147,7 @@ public class FieldCompleteListener implements DefaultListener {
      * @return
      */
     private Param<String> targetValue(Field<?> field) {
-        return DEFAULT_VALUES.get(field.getName()).get();
+        return AUTO_VALUES.get(field.getName()).get();
     }
 
 
@@ -184,7 +171,7 @@ public class FieldCompleteListener implements DefaultListener {
      * 设置指定字段的当前值
      */
     public static String setFieldValue(String name, String value) {
-        ThreadLocal<Param<String>> tl = DEFAULT_VALUES.get(name);
+        ThreadLocal<Param<String>> tl = AUTO_VALUES.get(name);
         Param<String> pre = tl.get();
         tl.set(val(value));
         if (pre != null) {
@@ -193,21 +180,5 @@ public class FieldCompleteListener implements DefaultListener {
         return null;
     }
 
-    @Override
-    public void start(ExecuteContext ctx) {
-        //初始化visitedMap，用于重复判定，保证SQL请求只会重写一次
-        visitedMap.get();
-    }
-
-    @Override
-    public void end(ExecuteContext ctx) {
-        //移除visitedMap，用于处理新的SQL请求
-        visitedMap.remove();
-    }
-
-    @Override
-    public void exception(ExecuteContext ctx) {
-        visitedMap.remove();
-    }
 
 }

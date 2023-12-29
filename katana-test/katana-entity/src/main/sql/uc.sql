@@ -1,7 +1,7 @@
 -- noinspection SqlNoDataSourceInspectionForFile
 -- (.*)(<.*>)(.*),  ==> $1$3 COMMENT'$2',
 CREATE SCHEMA `uc`;
-SET SCHEMA `uc`;
+USE `uc`;
 CREATE TABLE `user_info`
 (
     `id`          bigint   unsigned   NOT NULL AUTO_INCREMENT COMMENT '账户ID',

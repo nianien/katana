@@ -2,15 +2,15 @@ package org.jooq.impl;
 
 import org.jooq.ExecuteContext;
 import org.jooq.ExecuteListener;
-import org.jooq.VisitContext;
-import org.jooq.VisitListener;
 
 /**
+ * 接口{@link ExecuteListener}的默认实现
+ *
  * @author : liyifei
  * @created : 2023/10/23, 星期一
  * Copyright (c) 2004-2029 All Rights Reserved.
  **/
-public interface DefaultListener extends ExecuteListener, VisitListener {
+public interface DefaultExecuteListener extends ExecuteListener {
     @Override
     default void start(ExecuteContext ctx) {
     }
@@ -111,32 +111,4 @@ public interface DefaultListener extends ExecuteListener, VisitListener {
     }
 
 
-    @Override
-    default void clauseStart(VisitContext context) {
-    }
-
-
-    @Override
-    default void clauseEnd(VisitContext context) {
-    }
-
-
-    @Override
-    default void visitStart(VisitContext context) {
-    }
-
-
-    @Override
-    default void visitEnd(VisitContext context) {
-    }
-
-
-    default VisitListener asVisitListener() {
-        return this;
-    }
-
-
-    default ExecuteListener asExecuteListener() {
-        return this;
-    }
 }
