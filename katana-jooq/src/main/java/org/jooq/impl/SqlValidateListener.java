@@ -14,7 +14,7 @@ import java.util.Set;
  * @author liyifei
  */
 @Slf4j
-public class SqlValidateListener implements DefaultExecuteListener {
+public class SqlValidateListener implements ExecuteListener {
 
 
     @Override

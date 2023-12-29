@@ -62,9 +62,7 @@ public class SqlAbbreviator implements VisitListener {
             InList inList = (InList) context.queryPart();
             boolean abbr = inList.values.size() > limit;
             if (abbr) {
-                while (inList.values.size() > limit) {
-                    inList.values.remove(0);
-                }
+                inList.values.subList(limit, inList.values.size()).clear();
                 stack.push(inList.values.size());
             }
         } else if (context.queryPart().getClass() == FieldMapsForInsert.class) {
