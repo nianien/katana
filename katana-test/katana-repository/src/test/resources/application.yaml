@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: katana-jooq
+  profiles:
+    include: jdbc
+logging:
+  pattern: #%class{36}.%M %L
+    console: "${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint}  %C#%M:%line %clr(:) %m%n}"
+  level:
+    root: info
+    org.springframework: info
+    _org.springframework.web.servlet.HandlerMapping.Mappings: debug

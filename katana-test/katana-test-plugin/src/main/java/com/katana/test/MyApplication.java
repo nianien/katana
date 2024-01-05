@@ -42,7 +42,7 @@ public class MyApplication implements CommandLineRunner {
 
     private ClassLoader originClassLoader;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
         try {
             new SpringApplicationBuilder()

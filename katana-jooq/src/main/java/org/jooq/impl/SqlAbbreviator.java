@@ -28,11 +28,11 @@ public class SqlAbbreviator implements VisitListener {
     private final ThreadLocal<Integer> abbrLimit;
 
     /**
-     * SQL WHERE-IN语句访问堆栈
+     * SQL WHERE-IN语句访问堆栈, 用于记录IN子句render过程中剩余占位符
      */
     private final ThreadLocal<Stack<Integer>> whereInStack = ThreadLocal.withInitial(Stack::new);
     /**
-     * SQL INSERT语句访问堆栈
+     * SQL INSERT语句访问堆栈, 用于记录INSERT子句是否需要缩略
      */
     private final ThreadLocal<Stack<Boolean>> insertStack = ThreadLocal.withInitial(Stack::new);
 
@@ -86,8 +86,10 @@ public class SqlAbbreviator implements VisitListener {
             if (!stack.isEmpty()) {
                 Integer count = stack.pop();
                 if (count == 1) {
+                    //IN子句第limit个占位符render之后追加省略号
                     context.context().sql(",...");
                 } else {
+                    //记录IN子句render过程中剩余占位符
                     stack.push(count - 1);
                 }
             }
@@ -109,6 +111,8 @@ public class SqlAbbreviator implements VisitListener {
      * @return
      */
     public String abbr(String sql) {
+        whereInStack.remove();
+        insertStack.remove();
         return abbrContext.render(abbrContext.parser().parseQuery(sql));
     }
 

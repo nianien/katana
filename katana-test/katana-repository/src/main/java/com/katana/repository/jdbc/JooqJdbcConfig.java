@@ -24,20 +24,26 @@ public class JooqJdbcConfig {
     @Bean
     @Primary
     public DSLContext ruleDslContext(@Autowired DataSource dataSource,
-                                     @Value("${spring.jooq.sql-dialect:MySQL}") SQLDialect sqlDialect) {
+                                     @Value("${spring.jooq.sql-dialect:MySQL}") SQLDialect sqlDialect, @Autowired ImplicitColumnListener implicitColumnListener) {
         DefaultConfiguration config = new DefaultConfiguration();
         config.setSQLDialect(sqlDialect);
         config.setDataSource(dataSource);
         config.settings()
                 .withRenderSchema(false)
                 .withRenderNameCase(RenderNameCase.AS_IS)
-                .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED);
+                .withRenderQuotedNames(RenderQuotedNames.ALWAYS);
         config.setExecuteListener(
                 new PerformanceListener(),
                 new SqlValidateListener()
         );
-        config.setVisitListener(new FieldCompleteListener(new String[]{"tenant_code", "public"}, new String[]{"env", "local"}));
+        config.setVisitListener(implicitColumnListener);
         return DSL.using(config);
+    }
+
+
+    @Bean
+    protected ImplicitColumnListener fieldCompleteListener() {
+        return new ImplicitColumnListener(new String[]{"tenant_code", "public"}, new String[]{"env", "local"});
     }
 
     @Override

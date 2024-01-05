@@ -2,9 +2,10 @@ package com.katana.repository.dao;
 
 import com.katana.demo.entity.uc.tables.pojos.UserInfo;
 import com.katana.demo.entity.uc.tables.records.UserInfoRecord;
-import jakarta.annotation.Resource;
 import org.jooq.DSLContext;
 import org.jooq.Field;
+import org.jooq.impl.DSL;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -20,8 +21,12 @@ import static com.katana.demo.entity.uc.Tables.*;
 @Repository
 public class UserDao {
 
-    @Resource
     private DSLContext dslContext;
+
+    @Autowired
+    public UserDao(DSLContext dslContext) {
+        this.dslContext = dslContext;
+    }
 
     public List<UserInfo> abbr(Long[] idList) {
         return dslContext.select().from(USER_INFO)
@@ -52,7 +57,8 @@ public class UserDao {
 
     public List<UserInfo> get(String name) {
         return dslContext.select().from(USER_INFO)
-                .where(USER_INFO.NAME.like(name))
+                .where(DSL.val(name).like(USER_INFO.NAME))
+                .and(USER_INFO.TENANT_CODE.eq("fail"))
                 .fetchInto(UserInfo.class);
     }
 
@@ -108,6 +114,7 @@ public class UserDao {
     public int delete(String name) {
         return dslContext.delete(USER_INFO)
                 .where(USER_INFO.NAME.eq(name))
+                .and(USER_INFO.TENANT_CODE.eq("tenant"))
                 .execute();
     }
 }
